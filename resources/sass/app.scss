@@ -1,1 +1,294 @@
-//
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Font Awesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+.hometeam-players{
+    background-color:transparent;
+    position:absolute;
+    .point{
+        border:2px solid black;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: gray;
+        position:relative;
+        left:50%;
+        transform: translate(-50%);
+        cursor:pointer;
+    }
+    .number{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        user-select: none;
+    }
+}
+.awayteam-players{
+    background-color:transparent;
+    position:absolute;
+    .point{
+        border:2px solid black;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: white;
+        position:relative;
+        left:50%;
+        transform: translate(-50%);
+        cursor:pointer;
+    }
+    .number{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        user-select: none;
+    }
+}
+
+.name{
+    user-select: none;
+    font-size:xx-small;
+    position:relative;
+    top:-5px;
+}
+.mouseDowned{
+    z-index: 500;
+    width: 4rem !important;
+    height: 4rem !important;
+}
+.tactical-board{
+    position: relative;
+    &-field {
+        height: 600px;
+        width: 800px;
+        border:1px solid black;
+        background-image: url('../images/fieldImage.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        }
+}
+
+.modal {
+    &-base{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+    &-overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: gray;
+        opacity: 0.7;
+    }
+    &-content{
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+
+}
+
+.hometeam-players{
+    &.GK{
+        left:$first-line;
+        top:$center-lane;
+    }
+    &.CB{
+        left:$second-line;
+        top:$center-lane;
+    }
+    &.RCB{
+        left:$second-line;
+        top:$right-half-lane;
+    }
+    &.LCB{
+        left:$second-line;
+        top:$left-half-lane;
+    }
+    &.RSB{
+        left:$second-line;
+        top:$right-side-lane;
+    }
+    &.LSB{
+        left:$second-line;
+        top:$left-side-lane;
+    }
+    &.ANK{
+        left:$tird-line;
+        top:$center-lane;
+    }
+    &.RCH{
+        left:$tird-line;
+        top:$right-half-lane;
+    }
+    &.LCH{
+        left:$tird-line;
+        top:$left-half-lane;
+    }
+    &.RWB{
+        left:$tird-line;
+        top:$right-side-lane;
+    }
+    &.LWB{
+        left:$tird-line;
+        top:$left-side-lane;
+    }
+    &.RSH{
+        left:$fourth-line;
+        top:$right-side-lane;
+    }
+    &.LSH{
+        left:$fourth-line;
+        top:$left-side-lane;
+    }
+    &.RIH{
+        left:$fourth-line;
+        top:$right-half-lane;
+    }
+    &.LIH{
+        left:$fourth-line;
+        top:$left-half-lane;
+    }
+    &.OMF{
+        left:$fifth-line;
+        top:$center-lane;
+    }
+    &.RWG{
+        left:$fifth-line;
+        top:$right-side-lane;
+    }
+    &.LWG{
+        left:$fifth-line;
+        top:$left-side-lane;
+    }
+    &.OMF{
+        left:$fourth-line;
+        top:$center-lane;
+    }
+    &.RST{
+        left:$fourth-line;
+        top:$right-half-lane;
+    }
+    &.LST{
+        left:$fourth-line;
+        top:$right-half-lane;
+    }
+    &.CF{
+        left:$fifth-line;
+        top:$center-lane;
+    }
+}
+
+.awayteam-players{
+    &.GK{
+        left:$sixth-line;
+        top:$center-lane;
+    }
+    &.CB{
+        left:$seventh-line;
+        top:$center-lane;
+    }
+    &.RCB{
+        left:$seventh-line;
+        top:$left-half-lane;
+    }
+    &.LCB{
+        left:$seventh-line;
+        top:$right-half-lane;
+    }
+    &.RSB{
+        left:$seventh-line;
+        top:$left-side-lane;
+    }
+    &.LSB{
+        left:$seventh-line;
+        top:$right-side-lane;
+    }
+    &.ANK{
+        left:$eighth-line;
+        top:$center-lane;
+    }
+    &.RCH{
+        left:$eighth-line;
+        top:$left-half-lane;
+    }
+    &.LCH{
+        left:$eighth-line;
+        top:$right-half-lane;
+    }
+    &.RWB{
+        left:$eighth-line;
+        top:$left-side-lane;
+    }
+    &.LWB{
+        left:$eighth-line;
+        top:$right-side-lane;
+    }
+    &.RSH{
+        left:$ninth-line;
+        top:$left-side-lane;
+    }
+    &.LSH{
+        left:$ninth-line;
+        top:$right-side-lane;
+    }
+    &.RIH{
+        left:$ninth-line;
+        top:$left-half-lane;
+    }
+    &.LIH{
+        left:$ninth-line;
+        top:$right-half-lane;
+    }
+    &.OMF{
+        left:$tenth-line;
+        top:$center-lane;
+    }
+    &.RWG{
+        left:$tenth-line;
+        top:$left-side-lane;
+    }
+    &.LWG{
+        left:$tenth-line;
+        top:$right-side-lane;
+    }
+    &.OMF{
+        left:$fourth-line;
+        top:$center-lane;
+    }
+    &.RST{
+        left:$ninth-line;
+        top:$left-half-lane;
+    }
+    &.LST{
+        left:$ninth-line;
+        top:$right-half-lane;
+    }
+    &.CF{
+        left:$tenth-line;
+        top:$center-lane;
+    }
+}
+

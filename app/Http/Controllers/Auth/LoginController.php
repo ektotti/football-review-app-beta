@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\IdentityProvider;
+use App\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +40,52 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function redirectToProvider($provider) {
+        return socialite::driver($provider)->redirect();
+    }
+
+    public function callbackFromProvider($provider) {
+        try{
+            $userFromProvider = Socialite::driver($provider)->stateless()->user();
+        } catch(Exeption $e){
+            return redirect('/login')->with("{$provider}のアカウントが見つかりませんでした");
+        }
+
+        $user = $this->findOrCreateUser($userFromProvider, $provider);
+        if($user) {
+            Auth::login($user, true);
+            return redirect('/home');
+        } else {
+            return redirect('/login');
+        }
+        
+    }
+
+    private function findOrCreateUser($userFromProvider, $provider){
+        $account = IdentityProvider::where('provider_id', $userFromProvider->getId())->first();
+        if($account){
+            return User::where('id', $account->user_id)->first();
+        } else {
+            $account = User::where('email', $userFromProvider->getEmail())->first();
+            if($account) {
+                return $account;
+            }
+        }
+        
+        $user = new User;
+        $user->name = $userFromProvider->getName();
+        $user->email = $userFromProvider->getEmail();
+        $user->save();
+
+        $savedUser = User::where('email', $userFromProvider->getEmail())->first();
+        $userWithProvider = new IdentityProvider;
+        $userWithProvider->user_id = $savedUser->id;
+        $userWithProvider->provider_name = $provider;
+        $userWithProvider->provider_id = $userFromProvider->getId();
+        $userWithProvider->save();
+
+        return $savedUser;
     }
 }

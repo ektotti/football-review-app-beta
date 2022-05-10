@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('schedule:test')
-        // ->everyMinute();
+        $schedule->command('schedule:test')
+        ->everyMinute();
 
         $schedule->command('get:fixturesInfo')
                  ->monthlyOn(1, '1:00');
