@@ -27,8 +27,8 @@ class PrepareSocialLogin extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->unique()->change();
             $table->string('password')->change();
+            $table->string('email')->change();
         });
     }
 }

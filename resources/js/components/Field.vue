@@ -22,7 +22,7 @@
         </AwayteamPlayers>
         <portal to="modal">
             <Modal
-                @modalOverlayClick="setPlayers"
+                @contentBtnClick="setPlayers"
                 :hometeamPlayers="hometeamPlayers"
                 :awayteamPlayers="awayteamPlayers"
                 :positions="positions"
@@ -38,7 +38,7 @@ import AwayteamPlayers from "./AwayteamPlayers.vue";
 import Modal from "./Modal.vue";
 import PortalVue from "portal-vue";
 import html2canvas from "html2canvas";
-import axios from "axios";
+
 Vue.use(PortalVue);
 export default {
     props: {
@@ -101,13 +101,20 @@ export default {
     },
     methods: {
         capture: async function () {
-            console.log("発火");
-            let canvas = await html2canvas(this.$el);
-            let canvasData = canvas.toDataURL();
-            let response = await axios.post("/capture", {
-                data: canvasData,
+            let canvas = await html2canvas(this.$el, {
+                scale :4
             });
-            console.log(response);
+            let canvasData = await canvas.toDataURL();
+            for(let i = 1; i <= 4; i++){
+                if(!sessionStorage.getItem(`image${i}`)){
+                    sessionStorage.setItem(`image${i}`, canvasData);
+                    break
+                }
+            }
+            alert('一時保存しました。');
+            // let response = await axios.post("/capture", {
+            //     data: canvasData,
+            // });
         },
         setPlayers: function (
             hometeamPlayersSetPositions,

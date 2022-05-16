@@ -22,11 +22,10 @@ Vue.component('ExampleComponent', require('./components/ExampleComponent.vue').d
 Vue.component('Field', require('./components/Field.vue').default);
 Vue.component('TacticalBoardButtons', require('./components/TacticalBoardButtons.vue').default);
 Vue.component('TacticalBoard', require('./components/TacticalBoard.vue').default);
+Vue.component('CreatePost', require('./components/CreatePost.vue').default);
 
 Vue.filter('formatPlayerName',function(value){
-    console.log(typeof value);
     let nameSeparatedWithSpace = value.split('　');
-    console.log(value);
     if([...nameSeparatedWithSpace[0]].length < 5 ){
         return nameSeparatedWithSpace[0];
     }else{

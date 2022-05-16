@@ -15,7 +15,7 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('match_week');
+            $table->unsignedBigInteger('fixture_id');
             $table->string('team_name');
             $table->string('status');
             $table->string('player_1')->nullable();
@@ -39,6 +39,7 @@ class CreateMembersTable extends Migration
             $table->string('player_19')->nullable();
             $table->string('player_20')->nullable();
             $table->timestamps();
+            $table->foreign('fixture_id')->references('id')->on('fixtures');
         });
     }
 

@@ -31,6 +31,6 @@ class CreateIdentityProviderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('identity_provider');
+        Schema::drop('identity_providers');
     }
 }

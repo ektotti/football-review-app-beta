@@ -7,18 +7,20 @@
         ></field>
         <tactical-board-buttons
             @captureBoard="captureBoard"
+            :isPost="isPost"
         ></tactical-board-buttons>
     </div>
 </template>
 <script>
 export default {
-    props: {
-        initHometeamPlayers: {},
-        initAwayteamPlayers: {},
-    },
+    props:[
+        "initHometeamPlayers",
+        "initAwayteamPlayers",
+        "isPost",
+        "selectedFixture"
+    ],
     methods: {
         captureBoard: function () {
-            console.log("app発火");
             this.$refs.field.capture();
         },
     },

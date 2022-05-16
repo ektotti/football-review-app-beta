@@ -10,8 +10,12 @@ class Member extends Model
         'id',
     ];
     
-    static function getSeparetedNameAndNumber($matchWeek, $teamName){
-        $playerNmaneAndNumber = Member::getNameAndNumber($matchWeek, $teamName);
+    public function fixture() {
+        return $this->belongsTo('App\Fixture');
+    }
+
+    static function getSeparetedNameAndNumber($fixtureId, $teamName){
+        $playerNmaneAndNumber = Member::getNameAndNumber($fixtureId, $teamName);
         $separetedNameAndNumber = [];
         foreach ($playerNmaneAndNumber as $key => $value) {
             $number = preg_replace("/[^0-9]+/",'', $value);
@@ -24,8 +28,8 @@ class Member extends Model
         return $separetedNameAndNumber;
     }
 
-    static function getNameAndNumber($matchWeek, $teamName){
-        $players = Member::where('match_week', $matchWeek)->where('team_name', $teamName)->get()->toArray();
+    static function getNameAndNumber($fixtureId, $teamName){
+        $players = Member::where('fixture_id', $fixtureId)->where('team_name', $teamName)->get()->toArray();
         $players = array_diff($players[0], array(null));
         return array_filter($players, function($key){
            return preg_match('/(player_)\d+/u', $key); 

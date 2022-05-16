@@ -27,3 +27,7 @@ Route::get('/board/{id}', '\App\Http\Controllers\BoardController@index');
 Route::get('/member/json//', '\App\Http\Controllers\BoardController@getMember');
 
 Route::post('/capture', '\App\Http\Controllers\CaptureController@index');
+Route::get('/create/prepare', '\App\Http\Controllers\PrecreateController@index');
+Route::get('/create/board/{id}', '\App\Http\Controllers\PrecreateController@board');
+
+Route::resource('/post','\App\Http\Controllers\PostController');

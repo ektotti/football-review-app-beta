@@ -46,27 +46,28 @@ class GetAndSaveLineup extends Command
     {
         $searchFrom = new Carbon('now');
         // dd($searchFrom);
-        $searchTo = new Carbon('+90 minutes');
+        $searchTo = new Carbon('-30 days');
         // dd("2022-04-02 14:03:00" > $searchFrom);
 
-        $fixtures = Fixture::where('fixture_date_time', '>', $searchFrom)->where('fixture_date_time', '<', $searchTo)->get();
+        // $fixtures = Fixture::where('fixture_date_time', '>', $searchFrom)->where('fixture_date_time', '<', $searchTo)->get();
+        $fixtures = Fixture::all();
         $fixtures = $fixtures->toArray();
         // dd($fixtures);
         if($fixtures) {
             foreach($fixtures as $fixture){
 
-                if(Member::where('match_week', $fixture['match_week'])->where('team_name', $fixture['hometeam_name'])->first()) {
+                if(Member::where('fixture_id', $fixture['id'])->where('team_name', $fixture['hometeam_name'])->first()) {
                     continue;
                 }
 
                 $homeTeamLineup = Member::create([
-                    'match_week' => $fixture['match_week'],
+                    'fixture_id' => $fixture['id'],
                     'team_name' => $fixture['hometeam_name'],
                     'status' => 'home',
                 ]);
     
                 $awayTeamLineup = Member::create([
-                    'match_week' => $fixture['match_week'],
+                    'fixture_id' => $fixture['id'],
                     'team_name' => $fixture['awayteam_name'],
                     'status' => 'away',
                 ]);
