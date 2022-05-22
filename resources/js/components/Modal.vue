@@ -1,44 +1,33 @@
 <template>
     <div class="modal-base row justify-content-center" v-show="show">
         <div class="modal-overlay text-center"></div>
-        <div class="modal-content row flex-row col-10">
-            <component
-                :is="modalContent"
-            ></component>
-            <SetPostions
-                @contentBtnClick="contentBtnClick"
-                :hometeamPlayers="hometeamPlayers"
-                :awayteamPlayers="awayteamPlayers"
-                >
-            </SetPostions>
-        </div>
+        <component
+            :is="modalContent"
+            @contentBtnClick="contentBtnClick"
+        ></component>
     </div>
 </template>
 
 <script>
-import SetPostions from './SetPostions.vue';
+import SetPostions from "./SetPostions";
+import CreatePostInfo from "./CreatePostInfo";
 export default {
-  components: { SetPostions },
     props: {
-        hometeamPlayers: {},
-        awayteamPlayers: {},
-        positions: [],
+        show: '',
         modalContent: '',
-    },
-    data: function () {
-        return {
-            show: true,
-        };
     },
     methods: {
         contentBtnClick: function (...args) {
-            this.show = false;
-            console.log(args);
+            console.log('modal',args);
             this.$emit(
-                "contentBtnclick",
-                args,
+                "contentBtnClick",
+                args[0],
             );
         },
+    },
+    components: {
+        SetPostions,
+        CreatePostInfo
     },
 };
 </script>

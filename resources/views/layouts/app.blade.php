@@ -50,7 +50,7 @@
                             @endif
                         @else
                             <li class="nav-item col-3">
-                                <a id="" class="nav-link" href="#" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="" class="nav-link" href="/home" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <i class="fa-solid fa-house-chimney"></i>
                                 </a>
                             </li>
@@ -60,7 +60,7 @@
                                 </a>
                             </li>
                             <li class="nav-item col-3">
-                                <a id="" class="nav-link" href="localhost/create/prepare" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="" class="nav-link" href="/create/prepare" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <i class="fa-solid fa-paper-plane"></i>
                                 </a>
                             </li>

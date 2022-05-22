@@ -23,6 +23,8 @@ Vue.component('Field', require('./components/Field.vue').default);
 Vue.component('TacticalBoardButtons', require('./components/TacticalBoardButtons.vue').default);
 Vue.component('TacticalBoard', require('./components/TacticalBoard.vue').default);
 Vue.component('CreatePost', require('./components/CreatePost.vue').default);
+Vue.component('PostInfiniteScroll', require('./components/PostInfiniteScroll.vue').default);
+Vue.component('FixtureCard', require('./components/FixtureCard.vue').default);
 
 Vue.filter('formatPlayerName',function(value){
     let nameSeparatedWithSpace = value.split('　');

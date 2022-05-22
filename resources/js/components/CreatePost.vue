@@ -2,7 +2,10 @@
     <div class="main-content-warapper">
         <div class="main-content-inner row">
             <div class="slide col-8">
-                <post-image-carousel></post-image-carousel>
+                <post-image-carousel
+                :images="images"
+                :width="600">
+                </post-image-carousel>
             </div>
             <div class="textcontent col-4">
                 <input type="hidden" name="_token" :value="csrf" />
@@ -10,11 +13,20 @@
                 <button class="btn btn-primary" @click="sendForm" >投稿する</button>
             </div>
         </div>
-        <modal></modal>
+        <!-- <portal to="modal"> -->
+            <Modal
+                :show="show"
+                :modalContent="'CreatePostInfo'"
+            >
+            </Modal>
+        <!-- </portal> -->
     </div>
 </template>
 <script>
+import PortalVue from "portal-vue";
+Vue.use(PortalVue);
 import PostImageCarousel from "./PostImageCarousel.vue";
+import Modal from "./Modal.vue";
 import axios from "axios";
 
 export default {
@@ -27,7 +39,8 @@ export default {
     data: function () {
         return {
             images: [],
-            textContent: "レビューを書きましょう！"
+            textContent: "レビューを書きましょう！",
+            show: true,
         };
     },
     mounted: function () {
@@ -47,14 +60,16 @@ export default {
             let response = await axios.post('/post',{
                 'textContent' : this.textContent,
                 'images' : this.images});
-            if(response.status === 200){
-                alert('投稿しました。');
-                console.log(response);
+                
+            if(response.status == 200){
+                console.log('naze:',response.status);
+                this.show = true;
             }
         }
     },
     components: {
         PostImageCarousel,
+        Modal,
     },
 };
 </script>

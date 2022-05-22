@@ -9,4 +9,11 @@ class Post extends Model
     protected $guarded = [
         'id',
     ];
+
+    function fixture() {
+        return $this->belongsTo('App\Fixture');
+    }
+    function user() {
+        return $this->belongsTo('App\User');
+    }
 }

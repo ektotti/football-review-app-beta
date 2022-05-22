@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 
 class PostController extends Controller
@@ -19,7 +20,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::simplePaginate(3);
+        $postsWithFixture['posts'] = []; 
+
+        foreach($posts as $post) {
+            $post->fill($post->fixture->toArray());
+            $post->fill($post->user->toArray());
+        }
+        
+        return $posts;
     }
 
     /**

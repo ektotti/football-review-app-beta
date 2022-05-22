@@ -24,7 +24,7 @@ Route::get('/login/{provider}', '\App\Http\Controllers\Auth\LoginController@redi
 Route::get('/login/{provider}/callback', '\App\Http\Controllers\Auth\LoginController@callbackFromProvider')->where('provider', 'google|twitter');
 
 Route::get('/board/{id}', '\App\Http\Controllers\BoardController@index');
-Route::get('/member/json//', '\App\Http\Controllers\BoardController@getMember');
+Route::get('/players_json', '\App\Http\Controllers\GetMemberController@getMember');
 
 Route::post('/capture', '\App\Http\Controllers\CaptureController@index');
 Route::get('/create/prepare', '\App\Http\Controllers\PrecreateController@index');

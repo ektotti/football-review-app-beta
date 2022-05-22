@@ -1,5 +1,5 @@
 <template>
-    <dir class="row flex-row col-10">
+    <div class="modal-content row flex-row col-10">
         <ul
             class="modal-content-lineup py-5 col-6 list-unstyled row flex-column"
         >
@@ -35,15 +35,48 @@
             </li>
         </ul>
         <button class="btn btn-primaty" @click="contentBtnClick">完了</button>
-    </dir>
+    </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     props: {
-        hometeamPlayers: {},
-        awayteamPlayers: {},
-        positions: [],
+    },
+    data: function (){
+        return {
+            hometeamPlayers: {},
+            awayteamPlayers: {},
+            positions: [
+                "",
+                "GK",
+                "CB",
+                "RCB",
+                "LCB",
+                "RSB",
+                "LSB",
+                "ANK",
+                "RCH",
+                "LCH",
+                "RWB",
+                "LWB",
+                "RSH",
+                "LSH",
+                "RIH",
+                "LIH",
+                "OMF",
+                "RWG",
+                "LWG",
+                "RST",
+                "LST",
+                "CF",
+            ],
+        }
+    },
+    mounted: async function() {
+        let response = await axios.get('/players_json');
+        this.hometeamPlayers = response.data.hometeamPlayers;
+        this.awayteamPlayers = response.data.awayteamPlayers;
     },
     methods: {
         contentBtnClick: function () {

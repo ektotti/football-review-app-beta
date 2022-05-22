@@ -42,4 +42,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function identityProviders() {
         return $this->hasMany(IdentityProvider::class);
     }
+
+    public function post() {
+        return $this->hasMany('App\Post');
+    }
 }

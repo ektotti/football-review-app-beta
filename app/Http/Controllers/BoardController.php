@@ -10,8 +10,7 @@ class BoardController extends Controller
 {
     public function index(Request $request){
         $selectedMatch = Fixture::where('id', $request->id)->get()->toArray();
-        $hometeamMember = Member::getSeparetedNameAndNumber($selectedMatch[0]['id'], $selectedMatch[0]['hometeam_name']);
-        $awayteamMember = Member::getSeparetedNameAndNumber($selectedMatch[0]['id'], $selectedMatch[0]['awayteam_name']);
-        return view('board',['hometeamMember'=>$hometeamMember, 'awayteamMember'=>$awayteamMember]);
+        $request->session()->put('fixture_id', $request->id);
+        return view('board',["selectedMatch"=>$selectedMatch]);
     }
 }

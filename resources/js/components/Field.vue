@@ -23,9 +23,8 @@
         <portal to="modal">
             <Modal
                 @contentBtnClick="setPlayers"
-                :hometeamPlayers="hometeamPlayers"
-                :awayteamPlayers="awayteamPlayers"
-                :positions="positions"
+                :show="show"
+                :modalContent="'SetPostions'"
             >
             </Modal>
         </portal>
@@ -41,38 +40,14 @@ import html2canvas from "html2canvas";
 
 Vue.use(PortalVue);
 export default {
-    props: {
-        initHometeamPlayers: {},
-        initAwayteamPlayers: {},
-    },
+    props: [
+
+    ],
     data: function () {
         return {
             hometeamPlayersInPositions: {},
             awayteamPlayersInPositions: {},
-            positions: [
-                "",
-                "GK",
-                "CB",
-                "RCB",
-                "LCB",
-                "RSB",
-                "LSB",
-                "ANK",
-                "RCH",
-                "LCH",
-                "RWB",
-                "LWB",
-                "RSH",
-                "LSH",
-                "RIH",
-                "LIH",
-                "OMF",
-                "RWG",
-                "LWG",
-                "RST",
-                "LST",
-                "CF",
-            ],
+            show : true,
         };
     },
     computed: {
@@ -112,16 +87,11 @@ export default {
                 }
             }
             alert('一時保存しました。');
-            // let response = await axios.post("/capture", {
-            //     data: canvasData,
-            // });
         },
-        setPlayers: function (
-            hometeamPlayersSetPositions,
-            awayteamPlayersSetPositions
-        ) {
-            this.hometeamPlayersInPositions = hometeamPlayersSetPositions;
-            this.awayteamPlayersInPositions = awayteamPlayersSetPositions;
+        setPlayers: function (...args) {
+            this.hometeamPlayersInPositions = args[0][0];
+            this.awayteamPlayersInPositions = args[0][1];
+            this.show = false;
         },
     },
     components: {
