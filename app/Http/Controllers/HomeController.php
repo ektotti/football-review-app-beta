@@ -26,6 +26,7 @@ class HomeController extends Controller
     {
         $recentFixtures = Fixture::getRecentFixtures();
         $comingSoonFixtures = Fixture::getComingSoonFixtures() ?? null;
-        return view('home', compact('recentFixtures', 'comingSoonFixtures'));
+        $isIndex = true;
+        return view('home', compact('recentFixtures', 'comingSoonFixtures', 'isIndex'));
     }
 }

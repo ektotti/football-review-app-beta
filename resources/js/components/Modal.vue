@@ -3,6 +3,7 @@
         <div class="modal-overlay text-center"></div>
         <component
             :is="modalContent"
+            :relationList="relationList"
             @contentBtnClick="contentBtnClick"
         ></component>
     </div>
@@ -11,14 +12,15 @@
 <script>
 import SetPostions from "./SetPostions";
 import CreatePostInfo from "./CreatePostInfo";
+import RelationShipList from "./RelationshipList";
 export default {
     props: {
         show: '',
         modalContent: '',
+        relationList: []
     },
     methods: {
         contentBtnClick: function (...args) {
-            console.log('modal',args);
             this.$emit(
                 "contentBtnClick",
                 args[0],
@@ -27,7 +29,8 @@ export default {
     },
     components: {
         SetPostions,
-        CreatePostInfo
+        CreatePostInfo,
+        RelationShipList
     },
 };
 </script>

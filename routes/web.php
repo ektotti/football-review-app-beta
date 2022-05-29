@@ -31,3 +31,9 @@ Route::get('/create/prepare', '\App\Http\Controllers\PrecreateController@index')
 Route::get('/create/board/{id}', '\App\Http\Controllers\PrecreateController@board');
 
 Route::resource('/post','\App\Http\Controllers\PostController');
+Route::resource('/user','\App\Http\Controllers\UserController');
+
+Route::post('/relationship/follow', '\App\Http\Controllers\RelationshipController@follow');
+Route::post('/relationship/unfollow', '\App\Http\Controllers\RelationshipController@unfollow');
+Route::get('/relationship/follow/{id}', '\App\Http\Controllers\RelationshipController@followList');
+Route::get('/relationship/follower/{id}', '\App\Http\Controllers\RelationshipController@followerList');

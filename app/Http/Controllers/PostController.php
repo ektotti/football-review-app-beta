@@ -10,6 +10,9 @@ use App\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\ErrorHandler\Debug;
+
+use function Psy\debug;
 
 class PostController extends Controller
 {
@@ -20,8 +23,17 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::simplePaginate(3);
-        $postsWithFixture['posts'] = []; 
+        $posts = [];
+        $refererUrl = parse_url($_SERVER['HTTP_REFERER']);
+        $refererPath = $refererUrl['path'];
+        
+        if(preg_match("/\/user\/\d+/", $refererPath)){
+            $user_id = str_replace("/user/", "", $refererPath);
+            $posts = Post::where('user_id',$user_id)->simplePaginate(3);
+            // Log::debug($posts);
+        }else{
+            $posts = Post::simplePaginate(3);
+        }
 
         foreach($posts as $post) {
             $post->fill($post->fixture->toArray());
@@ -80,7 +92,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+        $post->fill($post->user->toArray());
+        $post->fill($post->fixture->toArray());
+        return view('post_detail',['post'=>$post]);
     }
 
     /**

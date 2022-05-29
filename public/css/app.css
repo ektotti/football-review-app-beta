@@ -21305,11 +21305,12 @@ readers do not read off random characters that represent icons */
 }
 
 .hometeam-players .point {
-  border: 2px solid black;
+  border: 2px solid white;
+  color: white;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: gray;
+  background-color: transparent;
   position: relative;
   left: 50%;
   transform: translate(-50%);
@@ -21328,17 +21329,29 @@ readers do not read off random characters that represent icons */
           user-select: none;
 }
 
+.hometeam-players .name {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: xx-small;
+  position: relative;
+  top: -5px;
+  color: white;
+}
+
 .awayteam-players {
   background-color: transparent;
   position: absolute;
 }
 
 .awayteam-players .point {
-  border: 2px solid black;
+  border: 2px solid #fcfcfc;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.4705882353);
+  color: #ffffff;
   position: relative;
   left: 50%;
   transform: translate(-50%);
@@ -21357,7 +21370,7 @@ readers do not read off random characters that represent icons */
           user-select: none;
 }
 
-.name {
+.awayteam-players .name {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -21365,6 +21378,7 @@ readers do not read off random characters that represent icons */
   font-size: xx-small;
   position: relative;
   top: -5px;
+  color: white;
 }
 
 .mouseDowned {
@@ -21378,12 +21392,11 @@ readers do not read off random characters that represent icons */
 }
 
 .tactical-board-field {
-  height: 600px;
-  width: 800px;
-  border: 1px solid black;
-  background-image: url(/images/fieldImage.png?0cc5b515fcd484bd4cafb18a91bd5ce6);
+  width: 100%;
+  aspect-ratio: 845/575;
+  background-image: url(/images/lineup-pitch.jpeg?09396e661d7f24487980980957d11a58);
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% 100%;
   background-position: center;
 }
 
@@ -21410,6 +21423,10 @@ readers do not read off random characters that represent icons */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+#post-card #post-card-header a {
+  background-color: white;
 }
 
 .hometeam-players.GK {

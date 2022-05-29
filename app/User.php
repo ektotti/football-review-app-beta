@@ -43,7 +43,25 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(IdentityProvider::class);
     }
 
-    public function post() {
+    public function posts() {
         return $this->hasMany('App\Post');
     }
+    
+    public function followingUser() {
+        return $this->hasMany('App\Relationship', 'user_id', 'id');
+    }
+
+    public function followedUser() {
+        return $this->hasMany('App\Relationship', 'following_user_id', 'id');
+    }
+
+    public function isfollowingOrNot($selectedUser) {
+        $hasRelation = Relationship::where('user_id', $this->id)->where('following_user_id', $selectedUser->id)->first();
+        if($hasRelation){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }

@@ -1,23 +1,35 @@
 <template>
-<div class="col-10">
-    <div class="card mb-1" v-for="(fixture, index) in fixtures" :key="index">
-        <div class="card-body">
-            <a
-                class="row justify-content-center"
-                :href="'/create/board/'+fixture.id"
+    <div class="col-10">
+        <div class="card">
+            <div class="card-header">{{listTitle}}</div>
+            <ul
+                class="list-group list-group-flush"
+                v-for="(fixture, index) in fixtures"
+                :key="index"
             >
-                <span class="col-4 text-center">{{ fixture.hometeam_name }}</span>
-                <span class="col-3 text-center">VS</span>
-                <span class="col-4 text-center">{{ fixture.awayteam_name }}</span>
-            </a>
+                <li class="list-group-item">
+                    <a
+                        class="card-link row justify-content-center"
+                        :href="'/create/board/' + fixture.id"
+                    >
+                        <span class="card-text col-4 text-center">{{
+                            fixture.hometeam_name
+                        }}</span>
+                        <span class="card-text col-3 text-center">VS</span>
+                        <span class="card-text col-4 text-center">{{
+                            fixture.awayteam_name
+                        }}</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
 </template>
 <script>
 export default {
     props: {
-        fixtures:[],
+        fixtures: [],
+        listTitle: "",
     },
 };
 </script>

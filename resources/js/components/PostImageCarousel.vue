@@ -1,18 +1,18 @@
 <template>
-    <carousel :perPage="1">
+    <carousel :perPage="1" >
         <slide v-for="(image, index) in images" :key="index">
-            <a :href="'/post/'+postId" v-if="isIndex">
+            <a :href="'/post/'+postId" v-if="!isCreate">
                 <img
-                    :src="'/storage/'+image"
+                    :src="image"
                     alt=""
-                    :width="width"
+                    class="col-12 px-0"
                 />
             </a>
             <img
                     :src="image"
                     alt=""
-                    :width="width"
-                    v-if="!isIndex"
+                    class="col-12 px-0"
+                    v-if="isCreate"
                 />
         </slide>
     </carousel>
@@ -22,8 +22,7 @@ import { Carousel, Slide } from "vue-carousel";
 export default {
     props: {
         images:[],
-        width:'',
-        isIndex:'',
+        isCreate:'',
         postId:'',
     },
     data: function() {
