@@ -1,5 +1,8 @@
 <template>
-    <carousel :perPage="1" >
+    <carousel :perPage="1"
+    :navigationEnabled="true"
+    :paginationEnabled="false"
+    >
         <slide v-for="(image, index) in images" :key="index">
             <a :href="'/post/'+postId" v-if="!isCreate">
                 <img

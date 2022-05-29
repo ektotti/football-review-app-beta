@@ -92,9 +92,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
-        $post->fill($post->user->toArray());
-        $post->fill($post->fixture->toArray());
+        $post = Post::with(['user', 'fixture', 'comments.user'])->get()->find($id);
         return view('post_detail',['post'=>$post]);
     }
 

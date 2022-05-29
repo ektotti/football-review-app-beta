@@ -3,7 +3,7 @@
         <div class="card" id="post-card" v-for="(post, index) in posts" :key="index">
             <CardHeader :post="post"></CardHeader>
             <CardBody :post="post" :isIndex="isIndex"></CardBody>
-            <CardFooter :post="post" :isIndex="isIndex"></Cardfooter>
+            <CardFooter :post="post" v-show="!isIndex"></Cardfooter>
         </div>
         <infinitLoading @infinite="infiniteHandler" v-if="isIndex"></infinitLoading>
     </div>
@@ -51,11 +51,9 @@ export default {
         },
     },
     mounted: function(){
-        console.log(this.isIndex);
         if(!this.isIndex) {
             this.initPost.images = this.getImageName(this.initPost);
             this.posts.push(this.initPost)
-            console.log(this.posts);
         }
     },
     components: {

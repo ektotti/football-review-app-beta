@@ -32,6 +32,7 @@ Route::get('/create/board/{id}', '\App\Http\Controllers\PrecreateController@boar
 
 Route::resource('/post','\App\Http\Controllers\PostController');
 Route::resource('/user','\App\Http\Controllers\UserController');
+Route::resource('/comment','\App\Http\Controllers\CommentController');
 
 Route::post('/relationship/follow', '\App\Http\Controllers\RelationshipController@follow');
 Route::post('/relationship/unfollow', '\App\Http\Controllers\RelationshipController@unfollow');

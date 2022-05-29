@@ -1972,11 +1972,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     post: {},
     isIndex: false
-  }
+  },
+  data: function data() {
+    return {
+      show: false
+    };
+  } // mounted: function() {
+  // }
+
 });
 
 /***/ }),
@@ -1990,8 +2013,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2004,7 +2025,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     post: {},
@@ -2013,9 +2045,10 @@ __webpack_require__.r(__webpack_exports__);
       "default": false
     }
   },
-  methods: {// clickLikesButton: async function(event) {
-    //     $response = await Axios.post('/likes', this.post);
-    // },
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
   }
 });
 
@@ -2640,12 +2673,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    console.log(this.isIndex);
-
     if (!this.isIndex) {
       this.initPost.images = this.getImageName(this.initPost);
       this.posts.push(this.initPost);
-      console.log(this.posts);
     }
   },
   components: {
@@ -2666,6 +2696,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_carousel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-carousel */ "./node_modules/vue-carousel/dist/vue-carousel.min.js");
 /* harmony import */ var vue_carousel__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_carousel__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
 //
 //
 //
@@ -48072,10 +48105,68 @@ var render = function () {
       1
     ),
     _vm._v(" "),
+    _vm.isIndex
+      ? _c("div", { staticClass: "card-body row my-2" }, [
+          _c("i", { staticClass: "fa-regular fa-heart fa-lg mr-4" }),
+          _vm._v(" "),
+          _c("i", { staticClass: "fa-regular fa-comment fa-lg" }),
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.isIndex
+      ? _c("div", { staticClass: "card-body row my-2" }, [
+          _c("i", { staticClass: "fa-regular fa-heart fa-lg mr-4" }),
+          _vm._v(" "),
+          _c("i", { staticClass: "fa-regular fa-comment fa-lg" }),
+          _vm._v(" "),
+          _c("span", [_vm._v(_vm._s(_vm.post.comments.length))]),
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     !_vm.isIndex
       ? _c("div", { staticClass: "card-body-text" }, [
           _c("span", [_vm._v(_vm._s(_vm.post.body))]),
         ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn py-0 mt-4 px-0",
+        on: {
+          click: function ($event) {
+            _vm.show = !_vm.show
+          },
+        },
+      },
+      [_vm._v("コメントを見る")]
+    ),
+    _vm._v(" "),
+    !_vm.isIndex
+      ? _c(
+          "ul",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.show,
+                expression: "show",
+              },
+            ],
+            staticClass: "list-unstyled my-4",
+          },
+          _vm._l(_vm.post.comments, function (comment, index) {
+            return _c("li", { key: index, staticClass: "list-unstyled my-4" }, [
+              _c("p", { staticClass: "mb-0" }, [
+                _vm._v(_vm._s(comment.user.name)),
+              ]),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(comment.body))]),
+            ])
+          }),
+          0
+        )
       : _vm._e(),
   ])
 }
@@ -48102,27 +48193,56 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card-footer" }, [
-    _vm.isIndex
-      ? _c("div", { staticClass: "card-body row" }, [
-          _c("i", { staticClass: "fa-regular fa-heart fa-lg mr-4" }),
-          _vm._v(" "),
-          _c("i", { staticClass: "fa-regular fa-comment fa-lg" }),
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.isIndex
-      ? _c("div", { staticClass: "card-body row" }, [
-          _c("i", {
-            staticClass: "fa-regular fa-heart fa-lg mr-4",
-            on: { click: _vm.clickLikesButton },
-          }),
-          _vm._v(" "),
-          _c("i", { staticClass: "fa-regular fa-comment fa-lg" }),
-        ])
-      : _vm._e(),
+    _c(
+      "form",
+      {
+        staticClass: "d-flex col-12 px-0 align-self-start",
+        attrs: { action: "/comment", method: "POST" },
+      },
+      [
+        _c("input", {
+          attrs: { type: "hidden", name: "_token" },
+          domProps: { value: _vm.csrf },
+        }),
+        _vm._v(" "),
+        _c("input", {
+          attrs: { type: "hidden", name: "postUserId" },
+          domProps: { value: _vm.post.user.id },
+        }),
+        _vm._v(" "),
+        _c("input", {
+          attrs: { type: "hidden", name: "postId" },
+          domProps: { value: _vm.post.id },
+        }),
+        _vm._v(" "),
+        _c("textarea", {
+          staticClass: "col-11 border-0 form-control",
+          attrs: {
+            name: "body",
+            id: "floatingTextarea",
+            cols: "10",
+            rows: "2",
+            placeholder: "コメントをする",
+          },
+        }),
+        _vm._v(" "),
+        _vm._m(0),
+      ]
+    ),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn px-0 mx-auto", attrs: { type: "submit" } },
+      [_c("i", { staticClass: "fa-solid fa-paper-plane" })]
+    )
+  },
+]
 render._withStripped = true
 
 
@@ -48639,7 +48759,17 @@ var render = function () {
             _vm._v(" "),
             _c("CardBody", { attrs: { post: post, isIndex: _vm.isIndex } }),
             _vm._v(" "),
-            _c("CardFooter", { attrs: { post: post, isIndex: _vm.isIndex } }),
+            _c("CardFooter", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.isIndex,
+                  expression: "!isIndex",
+                },
+              ],
+              attrs: { post: post },
+            }),
           ],
           1
         )
@@ -48676,7 +48806,9 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "carousel",
-    { attrs: { perPage: 1 } },
+    {
+      attrs: { perPage: 1, navigationEnabled: true, paginationEnabled: false },
+    },
     _vm._l(_vm.images, function (image, index) {
       return _c("slide", { key: index }, [
         !_vm.isCreate
