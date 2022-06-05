@@ -77,7 +77,7 @@ export default {
     methods: {
         capture: async function () {
             let canvas = await html2canvas(this.$el, {
-                scale :4
+                scale :1,
             });
             let canvasData = await canvas.toDataURL();
             for(let i = 1; i <= 4; i++){

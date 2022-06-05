@@ -25,9 +25,8 @@ class LikeController extends Controller
         $loginUser = Auth::user();
         $userId = $loginUser->id;
 
-        $postId = $request->id;
-
-        $like = Like::where('post_id', $postId)->where('user_id', $userId)->get();
+        $postId = $request->postId;
+        $like = Like::where('post_id', $postId)->where('user_id', $userId)->first();
         $like->delete();
         return back();
     }

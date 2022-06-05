@@ -28,11 +28,11 @@ class Post extends Model
 
     public function checkUserLikePost () {
         
-        $filterd = $this->likes->filter(function($value, $key) {
+        $filtered = $this->likes->filter(function($value, $key) {
             $loginUser = Auth::user();
             return $value->user_id == $loginUser->id;
         });
-        if($filterd){
+        if($filtered->count()){
             return true;
         }
         return false;

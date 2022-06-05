@@ -4,14 +4,15 @@
             <div class="slide col-8">
                 <post-image-carousel
                 :images="images"
-                :width="600">
+                :width="600"
+                :isCreate="true">
                 </post-image-carousel>
             </div>
             <div class="textcontent col-4">
                 <input type="hidden" name="_token" :value="csrf" />
                 <textarea v-model="textContent" cols="30" rows="10"></textarea>
-                <button class="btn btn-primary" @click="sendForm" >投稿する</button>
             </div>
+                <button class="btn btn-primary" @click="sendForm" >投稿する</button>
         </div>
         <!-- <portal to="modal"> -->
             <Modal
@@ -40,7 +41,7 @@ export default {
         return {
             images: [],
             textContent: "レビューを書きましょう！",
-            show: true,
+            show: false,
         };
     },
     mounted: function () {

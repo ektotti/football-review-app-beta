@@ -2161,6 +2161,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
 
@@ -2177,7 +2178,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
     return {
       images: [],
       textContent: "レビューを書きましょう！",
-      show: true
+      show: false
     };
   },
   mounted: function mounted() {
@@ -2380,7 +2381,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_4___default.a);
               case 0:
                 _context.next = 2;
                 return html2canvas__WEBPACK_IMPORTED_MODULE_5___default()(this.$el, {
-                  scale: 4
+                  scale: 1
                 });
 
               case 2:
@@ -2456,6 +2457,16 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_4___default.a);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2489,13 +2500,133 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    fixtures: [],
-    listTitle: ""
+    listTitle: "",
+    isComingSoon: ""
   },
-  mounted: function mounted() {
-    console.log(this.fixtures);
+  data: function data() {
+    return {
+      fixtures: {},
+      nextPageUrl: "",
+      prevPageUrl: ""
+    };
+  },
+  mounted: function () {
+    var _mounted = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var response, _response;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              console.log(this.isComingSoon);
+
+              if (this.isComingSoon) {
+                _context.next = 8;
+                break;
+              }
+
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/fixture/recent");
+
+            case 4:
+              response = _context.sent;
+              this.fixtures = response.data.data;
+              this.nextPageUrl = response.data.next_page_url;
+              this.prevPageUrl = response.data.prev_page_url;
+
+            case 8:
+              if (!this.isComingSoon) {
+                _context.next = 15;
+                break;
+              }
+
+              _context.next = 11;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/fixture/coming_soon");
+
+            case 11:
+              _response = _context.sent;
+              this.fixtures = _response.data.data;
+              this.nextPageUrl = _response.data.next_page_url;
+              this.prevPageUrl = _response.data.prev_page_url;
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function mounted() {
+      return _mounted.apply(this, arguments);
+    }
+
+    return mounted;
+  }(),
+  methods: {
+    goNextPage: function () {
+      var _goNextPage = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.nextPageUrl);
+
+              case 2:
+                response = _context2.sent;
+                this.fixtures = response.data.data;
+                this.nextPageUrl = response.data.next_page_url;
+                this.prevPageUrl = response.data.prev_page_url;
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function goNextPage() {
+        return _goNextPage.apply(this, arguments);
+      }
+
+      return goNextPage;
+    }(),
+    goPrevPage: function () {
+      var _goPrevPage = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.prevPageUrl);
+
+              case 2:
+                response = _context3.sent;
+                this.fixtures = response.data.data;
+                this.nextPageUrl = response.data.next_page_url;
+                this.prevPageUrl = response.data.prev_page_url;
+
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function goPrevPage() {
+        return _goPrevPage.apply(this, arguments);
+      }
+
+      return goPrevPage;
+    }()
   }
 });
 
@@ -48479,7 +48610,7 @@ var render = function () {
           { staticClass: "slide col-8" },
           [
             _c("post-image-carousel", {
-              attrs: { images: _vm.images, width: 600 },
+              attrs: { images: _vm.images, width: 600, isCreate: true },
             }),
           ],
           1
@@ -48511,13 +48642,13 @@ var render = function () {
               },
             },
           }),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", on: { click: _vm.sendForm } },
-            [_vm._v("投稿する")]
-          ),
         ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.sendForm } },
+          [_vm._v("投稿する")]
+        ),
       ]),
       _vm._v(" "),
       _c("Modal", {
@@ -48720,63 +48851,79 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-10" }, [
     _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
+      _c("div", { staticClass: "card-header text-center" }, [
         _vm._v(_vm._s(_vm.listTitle)),
       ]),
       _vm._v(" "),
-      _c(
-        "ul",
-        { staticClass: "list-group list-group-flush" },
-        [
-          _vm._l(_vm.fixtures.data, function (fixture, index) {
-            return _c("li", { key: index, staticClass: "list-group-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "card-link row justify-content-center",
-                  attrs: { href: "/create/board/" + fixture.id },
-                },
-                [
-                  _c("span", { staticClass: "card-text col-4 text-center" }, [
-                    _vm._v(_vm._s(fixture.hometeam_name)),
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "card-text col-3 text-center" }, [
-                    _vm._v("VS"),
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "card-text col-4 text-center" }, [
-                    _vm._v(_vm._s(fixture.awayteam_name)),
-                  ]),
-                ]
-              ),
-            ])
-          }),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", { staticClass: "card-link row justify-content-center" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "col-4 offset-2",
-                  attrs: { href: _vm.fixtures.prev_page_url },
-                },
-                [_vm._v("PREV")]
-              ),
+      _vm.fixtures.length
+        ? _c(
+            "ul",
+            { staticClass: "list-group list-group-flush" },
+            [
+              _vm._l(_vm.fixtures, function (fixture, index) {
+                return _c(
+                  "li",
+                  { key: index, staticClass: "list-group-item" },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "card-link row justify-content-center",
+                        attrs: { href: "/create/board/" + fixture.id },
+                      },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "card-text col-4 text-center" },
+                          [_vm._v(_vm._s(fixture.hometeam_name))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          { staticClass: "card-text col-3 text-center" },
+                          [_vm._v("VS")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          { staticClass: "card-text col-4 text-center" },
+                          [_vm._v(_vm._s(fixture.awayteam_name))]
+                        ),
+                      ]
+                    ),
+                  ]
+                )
+              }),
               _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "col-3 offset-3",
-                  attrs: { href: _vm.fixtures.next_page_url },
-                },
-                [_vm._v("NEXT")]
-              ),
-            ]),
-          ]),
-        ],
-        2
-      ),
+              _c("li", { staticClass: "list-group-item" }, [
+                _c("div", { staticClass: "row justify-content-center" }, [
+                  _vm.prevPageUrl
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn col-6 text-center",
+                          on: { click: _vm.goPrevPage },
+                        },
+                        [_vm._v("PREV")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.nextPageUrl
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn col-6 text-center",
+                          on: { click: _vm.goNextPage },
+                        },
+                        [_vm._v("NEXT")]
+                      )
+                    : _vm._e(),
+                ]),
+              ]),
+            ],
+            2
+          )
+        : _vm._e(),
     ]),
   ])
 }
@@ -48976,7 +49123,7 @@ var render = function () {
           ? _c("a", { attrs: { href: "/post/" + _vm.postId } }, [
               _c("img", {
                 staticClass: "col-12 px-0",
-                attrs: { src: image, alt: "" },
+                attrs: { src: "/storage/" + image, alt: "" },
               }),
             ])
           : _vm._e(),

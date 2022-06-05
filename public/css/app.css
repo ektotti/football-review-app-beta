@@ -21307,8 +21307,8 @@ readers do not read off random characters that represent icons */
 .hometeam-players .point {
   border: 2px solid white;
   color: white;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: transparent;
   position: relative;
@@ -21334,7 +21334,7 @@ readers do not read off random characters that represent icons */
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-size: xx-small;
+  font-size: small;
   position: relative;
   top: -5px;
   color: white;
@@ -21347,8 +21347,8 @@ readers do not read off random characters that represent icons */
 
 .awayteam-players .point {
   border: 2px solid #fcfcfc;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.4705882353);
   color: #ffffff;
@@ -21375,7 +21375,7 @@ readers do not read off random characters that represent icons */
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-size: xx-small;
+  font-size: small;
   position: relative;
   top: -5px;
   color: white;

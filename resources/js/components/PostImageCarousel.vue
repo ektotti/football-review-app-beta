@@ -6,7 +6,7 @@
         <slide v-for="(image, index) in images" :key="index">
             <a :href="'/post/'+postId" v-if="!isCreate">
                 <img
-                    :src="image"
+                    :src="'/storage/'+image"
                     alt=""
                     class="col-12 px-0"
                 />

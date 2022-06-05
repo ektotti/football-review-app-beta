@@ -41,3 +41,7 @@ Route::get('/relationship/follow/{id}', '\App\Http\Controllers\RelationshipContr
 Route::get('/relationship/follower/{id}', '\App\Http\Controllers\RelationshipController@followerList');
 
 Route::get('/like/{postId}', '\App\Http\Controllers\LikeController@add');
+Route::get('/unlike/{postId}', '\App\Http\Controllers\LikeController@remove');
+
+Route::get('/fixture/recent', '\App\Http\Controllers\FixtureController@getRecentFixtures');
+Route::get('/fixture/coming_soon', '\App\Http\Controllers\FixtureController@getComingSoonFixtures');

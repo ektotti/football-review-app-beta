@@ -9,8 +9,7 @@ use App\Member;
 class PrecreateController extends Controller
 {
     public function index(Request $request){
-        $fixtures = Fixture::simplePaginate(10);
-        return view('create_prepare', ['fixtures'=>$fixtures]);
+        return view('create_prepare');
     }
 
     public function board(Request $request){

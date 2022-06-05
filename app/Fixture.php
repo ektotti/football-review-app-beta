@@ -24,14 +24,13 @@ class Fixture extends Model
         $thirtyMinuteLater = new Carbon('+30 minutes');
         return Fixture::where('fixture_date_time', '>', $now)
                 ->where('fixture_date_time', '<', $thirtyMinuteLater)
-                ->get();
+                ->simplePaginate(5);
     }
 
     static function getRecentFixtures() {
         $now = Carbon::now();
         return Fixture::where('fixture_date_time', '<', $now)
                 ->orderBy('fixture_date_time', 'desc')
-                ->limit(5)
-                ->get();
+                ->simplePaginate(5);
     }
 }

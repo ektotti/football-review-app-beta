@@ -1,11 +1,11 @@
 <template>
     <div class="col-10">
         <div class="card">
-            <div class="card-header">{{ listTitle }}</div>
-            <ul class="list-group list-group-flush">
+            <div class="card-header text-center">{{ listTitle }}</div>
+            <ul v-if="fixtures.length" class="list-group list-group-flush">
                 <li
                     class="list-group-item"
-                    v-for="(fixture, index) in fixtures.data"
+                    v-for="(fixture, index) in fixtures"
                     :key="index"
                 >
                     <a
@@ -22,9 +22,9 @@
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <div  class="card-link row justify-content-center">
-                        <a class="col-4 offset-2" :href="fixtures.prev_page_url">PREV</a>
-                        <a class="col-3 offset-3" :href="fixtures.next_page_url">NEXT</a>
+                    <div class="row justify-content-center">
+                        <button class="btn col-6 text-center" v-if="prevPageUrl" @click="goPrevPage">PREV</button>
+                        <button class="btn col-6 text-center" v-if="nextPageUrl" @click="goNextPage">NEXT</button>
                     </div>
                 </li>
             </ul>
@@ -32,15 +32,47 @@
     </div>
 </template>
 <script>
-import Axios from 'axios';
+import Axios from "axios";
 export default {
     props: {
-        fixtures: [],
         listTitle: "",
-        isPost:'',
+        isComingSoon: "",
     },
-    mounted: function () {
-        $response = Axios.get('/fixture/recent');
+    data: function () {
+        return {
+            fixtures: {},
+            nextPageUrl: "",
+            prevPageUrl: "",
+        };
+    },
+    mounted: async function () {
+        console.log(this.isComingSoon)
+        if(!this.isComingSoon) {
+            let response = await Axios.get("/fixture/recent");
+            this.fixtures = response.data.data;
+            this.nextPageUrl = response.data.next_page_url;
+            this.prevPageUrl = response.data.prev_page_url;
+        }
+        if(this.isComingSoon) {
+            let response = await Axios.get("/fixture/coming_soon");
+            this.fixtures = response.data.data;
+            this.nextPageUrl = response.data.next_page_url;
+            this.prevPageUrl = response.data.prev_page_url;
+        }
+    },
+    methods: {
+        goNextPage: async function () {
+            let response = await Axios.get(this.nextPageUrl);
+            this.fixtures = response.data.data;
+            this.nextPageUrl = response.data.next_page_url;
+            this.prevPageUrl = response.data.prev_page_url;
+        },
+        goPrevPage: async function () {
+            let response = await Axios.get(this.prevPageUrl);
+            this.fixtures = response.data.data;
+            this.nextPageUrl = response.data.next_page_url;
+            this.prevPageUrl = response.data.prev_page_url;
+        },
     },
 };
 </script>
