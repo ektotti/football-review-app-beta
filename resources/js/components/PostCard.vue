@@ -2,7 +2,7 @@
     <div class="col-md-8 mx-auto">
         <div class="card" id="post-card" v-for="(post, index) in posts" :key="index">
             <CardHeader :post="post"></CardHeader>
-            <CardBody :post="post" :isIndex="isIndex"></CardBody>
+            <CardBody :post="post" :isIndex="isIndex" :likeThisPost="likeThisPost"></CardBody>
             <CardFooter :post="post" v-show="!isIndex"></Cardfooter>
         </div>
         <infinitLoading @infinite="infiniteHandler" v-if="isIndex"></infinitLoading>
@@ -22,6 +22,9 @@ export default {
         isIndex:{
             type: Boolean,
             default: false,
+        },
+        likeThisPost: {
+            type: Boolean,
         }
     },
     data: function () {
@@ -33,7 +36,6 @@ export default {
     methods: {
         infiniteHandler: async function ($state) {
             let response = await Axios.get("/post?page=" + this.page);
-            console.log(response);
 
             for (let PostObj of response.data.data) {
                 PostObj.images = this.getImageName(PostObj);

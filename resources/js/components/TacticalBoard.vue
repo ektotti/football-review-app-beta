@@ -5,6 +5,7 @@
         ></field>
         <tactical-board-buttons
             @captureBoard="captureBoard"
+            @_changePlayers="_changePlayers"
             :isPost="isPost"
         ></tactical-board-buttons>
     </div>
@@ -17,6 +18,11 @@ export default {
     methods: {
         captureBoard: function () {
             this.$refs.field.capture();
+        },
+        _changePlayers: function () {
+            console.log('クリックされています');
+            this.$refs.field.$data.show=true;
+            
         },
     },
 };

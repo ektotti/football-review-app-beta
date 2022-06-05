@@ -22,6 +22,7 @@ Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/login/{provider}', '\App\Http\Controllers\Auth\LoginController@redirectToProvider')->where('provider', 'google|twitter');
 Route::get('/login/{provider}/callback', '\App\Http\Controllers\Auth\LoginController@callbackFromProvider')->where('provider', 'google|twitter');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/board/{id}', '\App\Http\Controllers\BoardController@index');
 Route::get('/players_json', '\App\Http\Controllers\GetMemberController@getMember');
@@ -38,3 +39,5 @@ Route::post('/relationship/follow', '\App\Http\Controllers\RelationshipControlle
 Route::post('/relationship/unfollow', '\App\Http\Controllers\RelationshipController@unfollow');
 Route::get('/relationship/follow/{id}', '\App\Http\Controllers\RelationshipController@followList');
 Route::get('/relationship/follower/{id}', '\App\Http\Controllers\RelationshipController@followerList');
+
+Route::get('/like/{postId}', '\App\Http\Controllers\LikeController@add');

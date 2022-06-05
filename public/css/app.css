@@ -21392,6 +21392,7 @@ readers do not read off random characters that represent icons */
 }
 
 .tactical-board-field {
+  position: relative;
   width: 100%;
   aspect-ratio: 845/575;
   background-image: url(/images/lineup-pitch.jpeg?09396e661d7f24487980980957d11a58);
@@ -21429,223 +21430,229 @@ readers do not read off random characters that represent icons */
   background-color: white;
 }
 
+.modal-content-lineup li {
+  height: 30px;
+}
+
+.modal-content-lineup .custom-select {
+  height: 25px;
+}
+
 .hometeam-players.GK {
-  left: 28px;
-  top: 285px;
+  left: 2%;
+  top: 47%;
 }
 
 .hometeam-players.CB {
-  left: 130px;
-  top: 285px;
+  left: 19%;
+  top: 47%;
 }
 
 .hometeam-players.RCB {
-  left: 130px;
-  top: 390px;
+  left: 19%;
+  top: 75.6%;
 }
 
 .hometeam-players.LCB {
-  left: 130px;
-  top: 180px;
+  left: 19%;
+  top: 21.5%;
 }
 
 .hometeam-players.RSB {
-  left: 130px;
-  top: 490px;
+  left: 19%;
+  top: 89.9%;
 }
 
 .hometeam-players.LSB {
-  left: 130px;
-  top: 80px;
+  left: 19%;
+  top: 5%;
 }
 
 .hometeam-players.ANK {
-  left: 205px;
-  top: 285px;
+  left: 28%;
+  top: 47%;
 }
 
 .hometeam-players.RCH {
-  left: 205px;
-  top: 390px;
+  left: 28%;
+  top: 35.8%;
 }
 
 .hometeam-players.LCH {
-  left: 205px;
-  top: 180px;
+  left: 28%;
+  top: 61.3%;
 }
 
 .hometeam-players.RWB {
-  left: 205px;
-  top: 490px;
+  left: 28%;
+  top: 89.9%;
 }
 
 .hometeam-players.LWB {
-  left: 205px;
-  top: 80px;
+  left: 28%;
+  top: 5%;
 }
 
 .hometeam-players.RSH {
-  left: 280px;
-  top: 490px;
+  left: 38%;
+  top: 89.9%;
 }
 
 .hometeam-players.LSH {
-  left: 280px;
-  top: 80px;
+  left: 38%;
+  top: 5%;
 }
 
 .hometeam-players.RIH {
-  left: 280px;
-  top: 390px;
+  left: 38%;
+  top: 61.3%;
 }
 
 .hometeam-players.LIH {
-  left: 280px;
-  top: 180px;
+  left: 38%;
+  top: 35.8%;
 }
 
 .hometeam-players.OMF {
-  left: 365px;
-  top: 285px;
+  left: 47%;
+  top: 47%;
 }
 
 .hometeam-players.RWG {
-  left: 365px;
-  top: 490px;
+  left: 47%;
+  top: 89.9%;
 }
 
 .hometeam-players.LWG {
-  left: 365px;
-  top: 80px;
-}
-
-.hometeam-players.OMF {
-  left: 280px;
-  top: 285px;
+  left: 47%;
+  top: 5%;
 }
 
 .hometeam-players.RST {
-  left: 280px;
-  top: 390px;
+  left: 38%;
+  top: 75.6%;
 }
 
 .hometeam-players.LST {
-  left: 280px;
-  top: 390px;
+  left: 38%;
+  top: 21.5%;
 }
 
 .hometeam-players.CF {
-  left: 365px;
-  top: 285px;
+  left: 47%;
+  top: 47%;
+}
+
+.hometeam-players.RESERVE {
+  display: none;
 }
 
 .awayteam-players.GK {
-  left: 735px;
-  top: 285px;
+  left: 95%;
+  top: 47%;
 }
 
 .awayteam-players.CB {
-  left: 635px;
-  top: 285px;
+  left: 78.5%;
+  top: 47%;
 }
 
 .awayteam-players.RCB {
-  left: 635px;
-  top: 180px;
+  left: 78.5%;
+  top: 21.5%;
 }
 
 .awayteam-players.LCB {
-  left: 635px;
-  top: 390px;
+  left: 78.5%;
+  top: 75.6%;
 }
 
 .awayteam-players.RSB {
-  left: 635px;
-  top: 80px;
+  left: 78.5%;
+  top: 5%;
 }
 
 .awayteam-players.LSB {
-  left: 635px;
-  top: 490px;
+  left: 78.5%;
+  top: 89.9%;
 }
 
 .awayteam-players.ANK {
-  left: 565px;
-  top: 285px;
+  left: 69%;
+  top: 47%;
 }
 
 .awayteam-players.RCH {
-  left: 565px;
-  top: 180px;
+  left: 69%;
+  top: 61.3%;
 }
 
 .awayteam-players.LCH {
-  left: 565px;
-  top: 390px;
+  left: 69%;
+  top: 35.8%;
 }
 
 .awayteam-players.RWB {
-  left: 565px;
-  top: 80px;
+  left: 69%;
+  top: 5%;
 }
 
 .awayteam-players.LWB {
-  left: 565px;
-  top: 490px;
+  left: 69%;
+  top: 89.9%;
 }
 
 .awayteam-players.RSH {
-  left: 480px;
-  top: 80px;
+  left: 59%;
+  top: 5%;
 }
 
 .awayteam-players.LSH {
-  left: 480px;
-  top: 490px;
+  left: 59%;
+  top: 89.9%;
 }
 
 .awayteam-players.RIH {
-  left: 480px;
-  top: 180px;
+  left: 59%;
+  top: 35.8%;
 }
 
 .awayteam-players.LIH {
-  left: 480px;
-  top: 390px;
+  left: 59%;
+  top: 61.3%;
 }
 
 .awayteam-players.OMF {
-  left: 400px;
-  top: 285px;
+  left: 50%;
+  top: 47%;
 }
 
 .awayteam-players.RWG {
-  left: 400px;
-  top: 80px;
+  left: 50%;
+  top: 5%;
 }
 
 .awayteam-players.LWG {
-  left: 400px;
-  top: 490px;
-}
-
-.awayteam-players.OMF {
-  left: 280px;
-  top: 285px;
+  left: 50%;
+  top: 89.9%;
 }
 
 .awayteam-players.RST {
-  left: 480px;
-  top: 180px;
+  left: 59%;
+  top: 21.5%;
 }
 
 .awayteam-players.LST {
-  left: 480px;
-  top: 390px;
+  left: 59%;
+  top: 75.6%;
 }
 
 .awayteam-players.CF {
-  left: 400px;
-  top: 285px;
+  left: 50%;
+  top: 47%;
+}
+
+.awayteam-players.RESERVE {
+  display: none;
 }
 

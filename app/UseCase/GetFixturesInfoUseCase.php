@@ -1,5 +1,7 @@
 <?php 
 namespace App\UseCase;
+
+use Illuminate\Support\Facades\Log;
 use Nesk\Puphpeteer\Puppeteer;
 
 class GetFixturesInfoUseCase
@@ -19,17 +21,18 @@ class GetFixturesInfoUseCase
             $matchweekNum = $m[0];
                 foreach($element->querySelectorAll('table.matchTable>tbody>tr') as $matchtable ){
                     $matchurl = $matchtable->querySelector('td.match a')->getProperty('href')->jsonValue();
+                    // Log::debug($matchurl);
                     
                         $urlArray = array_column($fixtures, 'matchurl');
                         if(array_search($matchurl, $urlArray)) {
                             continue;
                         }
-
-                    $kickoffTime = formatTime($matchtable->querySelector('td.stadium')->getProperty('textContent')->jsonValue());
-                    $hometeamName = $matchtable->querySelector('td.clubName.leftside')->getProperty('textContent')->jsonValue();
-                    $hometeamName = str_replace(array(" ", "\r\n", "\r", "\n"), '', $hometeamName);
-                    $awayteamName = $matchtable->querySelector('td.clubName.rightside')->getProperty('textContent')->jsonValue();
-                    $awayteamName = str_replace(array(" ", "\r\n", "\r", "\n"), '', $awayteamName);
+                        $hometeamName = $matchtable->querySelector('td.clubName.leftside')->getProperty('textContent')->jsonValue();
+                        $hometeamName = str_replace(array(" ", "\r\n", "\r", "\n"), '', $hometeamName);
+                        $awayteamName = $matchtable->querySelector('td.clubName.rightside')->getProperty('textContent')->jsonValue();
+                        $awayteamName = str_replace(array(" ", "\r\n", "\r", "\n"), '', $awayteamName);
+                        $kickoffTime = formatTime($matchtable->querySelector('td.stadium')->getProperty('textContent')->jsonValue());
+        
                     
 
                     $fixtures[] = [

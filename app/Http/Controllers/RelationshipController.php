@@ -28,10 +28,10 @@ class RelationshipController extends Controller
     public function unfollow(Request $request) {
         $relationship = Relationship::where('user_id', $request->loginUserId)
                                     ->where('following_user_id', $request->selectedUserId)
-                                    ->first();
-        
+                                    ->delete();
+        Log::debug("リレーション:".$relationship);
         if($relationship) {
-            $relationship->delete();
+            return ['delete'=>true];
         } else {
             echo 'おかしくない？例外です。';
         }

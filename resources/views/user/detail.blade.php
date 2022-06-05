@@ -5,9 +5,8 @@
     <Profiel 
         :selected-user='@json($selectedUser)'
         :login-user='@json($loginUser)'
-        :following-user-amount='@json($followingUserAmount)'
-        :followed-user-amount='@json($followedUserAmount)'
         :is-following='@json($isFollowing)'
+        :is-self='@json($isSelf)'
     >
     </Profiel>
     <post-card :is-index='@json($isIndex)'>

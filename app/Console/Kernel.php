@@ -24,17 +24,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('schedule:test')
-        ->everyMinute();
+        // $schedule->command('schedule:test')
+        // ->everyMinute();
 
-        $schedule->command('get:fixturesInfo')
-                 ->monthlyOn(1, '1:00');
+        // $schedule->command('get:fixturesInfo')
+                //  ->monthlyOn(1, '1:00');
 
-        $schedule->command('get:lineup')
-                  ->daily()
-                  ->hourly()
-                  ->timezone('ASIA/TOKYO')
-                  ->between('11:00','18:00');
+        // $schedule->command('get:lineup')->everyMinute();
+                //   ->daily()
+                //   ->hourly()
+                //   ->timezone('ASIA/TOKYO')
+                //   ->between('11:00','18:00');
         
     }
 

@@ -1988,18 +1988,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     post: {},
-    isIndex: false
+    isIndex: {
+      type: Boolean,
+      "default": false
+    },
+    likeThisPost: {
+      type: Boolean
+    }
   },
   data: function data() {
     return {
       show: false
     };
-  } // mounted: function() {
-  // }
-
+  }
 });
 
 /***/ }),
@@ -2465,10 +2483,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     fixtures: [],
     listTitle: ""
+  },
+  mounted: function mounted() {
+    console.log(this.fixtures);
   }
 });
 
@@ -2606,6 +2633,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     isIndex: {
       type: Boolean,
       "default": false
+    },
+    likeThisPost: {
+      type: Boolean
     }
   },
   data: function data() {
@@ -2628,7 +2658,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 response = _context.sent;
-                console.log(response);
                 _iterator = _createForOfIteratorHelper(response.data.data);
 
                 try {
@@ -2646,7 +2675,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 $state.loaded();
                 this.page += 1;
 
-              case 8:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -2814,6 +2843,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -2821,14 +2865,17 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
   props: {
     selectedUser: {},
     loginUser: {},
-    followingUserAmount: '',
-    followedUserAmount: '',
-    isFollowing: ''
+    isFollowing: "",
+    isSelf: {
+      "default": false
+    }
   },
   data: function data() {
     return {
       show: false,
-      relationList: []
+      relationList: [],
+      followingUserAmount: this.selectedUser.following_user.length,
+      followedUserAmount: this.selectedUser.followed_user.length
     };
   },
   methods: {
@@ -2841,8 +2888,8 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
               case 0:
                 _context.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/relationship/follow", {
-                  "selectedUserId": this.selectedUser.id,
-                  "loginUserId": this.loginUser.id
+                  selectedUserId: this.selectedUser.id,
+                  loginUserId: this.loginUser.id
                 });
 
               case 2:
@@ -2873,16 +2920,19 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
               case 0:
                 _context2.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/relationship/unfollow", {
-                  "selectedUserId": this.selectedUser.id,
-                  "loginUserId": this.loginUser.id
+                  selectedUserId: this.selectedUser.id,
+                  loginUserId: this.loginUser.id
                 });
 
               case 2:
                 response = _context2.sent;
-                this.isFollowing = false;
-                this.followedUserAmount -= 1;
 
-              case 5:
+                if (response.data["delete"]) {
+                  this.isFollowing = false;
+                  this.followedUserAmount -= 1;
+                }
+
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -2954,11 +3004,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
 
       return showFollowers;
     }()
-  } // mounted: async function () {
-  //    let response = await Axios.post('/relationship/count', [this.loginUser.id, this.selectedUser.id]);
-  //    response.
-  // }
-
+  }
 });
 
 /***/ }),
@@ -3065,6 +3111,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {},
@@ -3072,7 +3165,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       hometeamPlayers: {},
       awayteamPlayers: {},
-      positions: ["", "GK", "CB", "RCB", "LCB", "RSB", "LSB", "ANK", "RCH", "LCH", "RWB", "LWB", "RSH", "LSH", "RIH", "LIH", "OMF", "RWG", "LWG", "RST", "LST", "CF"]
+      hometeamName: "",
+      awayteamName: "",
+      positions: ["GK", "CB", "RCB", "LCB", "RSB", "LSB", "ANK", "RCH", "LCH", "RWB", "LWB", "RSH", "LSH", "RIH", "LIH", "OMF", "RWG", "LWG", "RST", "LST", "CF", "RESERVE"]
     };
   },
   mounted: function () {
@@ -3083,14 +3178,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/players_json');
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/players_json");
 
             case 2:
               response = _context.sent;
-              this.hometeamPlayers = response.data.hometeamPlayers;
-              this.awayteamPlayers = response.data.awayteamPlayers;
+              console.log(response.data);
+              this.hometeamPlayers = response.data.players.hometeamPlayers;
+              this.awayteamPlayers = response.data.players.awayteamPlayers;
+              this.hometeamName = response.data.hometeamName;
+              this.awayteamName = response.data.awayteamName;
 
-            case 5:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -3134,11 +3232,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["isPost"],
   methods: {
     captureBoard: function captureBoard() {
       this.$refs.field.capture();
+    },
+    _changePlayers: function _changePlayers() {
+      console.log('クリックされています');
+      this.$refs.field.$data.show = true;
     }
   }
 });
@@ -3166,19 +3269,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["isPost"],
-  mounted: function mounted() {
-    console.log(this.isPost);
-
-    if (this.isPost == true) {
-      var button = this.$el.querySelector('.next-button');
-      button.classList.remove('d-none');
-    }
-  },
+  // mounted:function(){
+  //     console.log(this.isPost);
+  //     if(this.isPost == true) {
+  //         let button = this.$el.querySelector('.next-button');
+  //         button.classList.remove('d-none');
+  //     }
+  // },
   methods: {
     _onclick: function _onclick() {
       this.$emit("captureBoard");
+    },
+    _changePlayers: function _changePlayers() {
+      console.log('クリック＠モーダル');
+      this.$emit("_changePlayers");
     }
   }
 });
@@ -48088,7 +48195,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card-body" }, [
+  return _c("div", { staticClass: "card-body pb-0" }, [
     _c(
       "div",
       { staticClass: "card-body-image" },
@@ -48106,21 +48213,49 @@ var render = function () {
     ),
     _vm._v(" "),
     _vm.isIndex
-      ? _c("div", { staticClass: "card-body row my-2" }, [
-          _c("i", { staticClass: "fa-regular fa-heart fa-lg mr-4" }),
-          _vm._v(" "),
-          _c("i", { staticClass: "fa-regular fa-comment fa-lg" }),
-        ])
+      ? _c(
+          "div",
+          { staticClass: "card-body row mt-2 align-items-center py-2" },
+          [
+            _c("i", { staticClass: "fa-solid fa-heart fa-lg mr-1" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "mr-4" }, [
+              _vm._v(_vm._s(_vm.post.likes.length)),
+            ]),
+            _vm._v(" "),
+            _c("i", { staticClass: "fa-regular fa-comment fa-lg mr-1" }),
+            _vm._v(" "),
+            _c("span", [_vm._v(_vm._s(_vm.post.comments.length))]),
+          ]
+        )
       : _vm._e(),
     _vm._v(" "),
     !_vm.isIndex
-      ? _c("div", { staticClass: "card-body row my-2" }, [
-          _c("i", { staticClass: "fa-regular fa-heart fa-lg mr-4" }),
-          _vm._v(" "),
-          _c("i", { staticClass: "fa-regular fa-comment fa-lg" }),
-          _vm._v(" "),
-          _c("span", [_vm._v(_vm._s(_vm.post.comments.length))]),
-        ])
+      ? _c(
+          "div",
+          { staticClass: "card-body row my-2 align-items-center py-2" },
+          [
+            _vm.likeThisPost
+              ? _c("a", { attrs: { href: "/unlike/" + _vm.post.id } }, [
+                  _c("i", { staticClass: "fa-solid fa-heart fa-lg mr-1" }),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.likeThisPost
+              ? _c("a", { attrs: { href: "/like/" + _vm.post.id } }, [
+                  _c("i", { staticClass: "fa-regular fa-heart fa-lg mr-1" }),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("span", { staticClass: "mr-4" }, [
+              _vm._v(_vm._s(_vm.post.likes.length)),
+            ]),
+            _vm._v(" "),
+            _c("i", { staticClass: "fa-regular fa-comment fa-lg mr-1" }),
+            _vm._v(" "),
+            _c("span", [_vm._v(_vm._s(_vm.post.comments.length))]),
+          ]
+        )
       : _vm._e(),
     _vm._v(" "),
     !_vm.isIndex
@@ -48129,18 +48264,20 @@ var render = function () {
         ])
       : _vm._e(),
     _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn py-0 mt-4 px-0",
-        on: {
-          click: function ($event) {
-            _vm.show = !_vm.show
+    !_vm.isIndex
+      ? _c(
+          "button",
+          {
+            staticClass: "btn py-0 mt-4 mb-2 px-0",
+            on: {
+              click: function ($event) {
+                _vm.show = !_vm.show
+              },
+            },
           },
-        },
-      },
-      [_vm._v("コメントを見る")]
-    ),
+          [_vm._v("\n        コメントを見る\n    ")]
+        )
+      : _vm._e(),
     _vm._v(" "),
     !_vm.isIndex
       ? _c(
@@ -48582,47 +48719,65 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-10" }, [
-    _c(
-      "div",
-      { staticClass: "card" },
-      [
-        _c("div", { staticClass: "card-header" }, [
-          _vm._v(_vm._s(_vm.listTitle)),
-        ]),
-        _vm._v(" "),
-        _vm._l(_vm.fixtures, function (fixture, index) {
-          return _c(
-            "ul",
-            { key: index, staticClass: "list-group list-group-flush" },
-            [
-              _c("li", { staticClass: "list-group-item" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "card-link row justify-content-center",
-                    attrs: { href: "/create/board/" + fixture.id },
-                  },
-                  [
-                    _c("span", { staticClass: "card-text col-4 text-center" }, [
-                      _vm._v(_vm._s(fixture.hometeam_name)),
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "card-text col-3 text-center" }, [
-                      _vm._v("VS"),
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "card-text col-4 text-center" }, [
-                      _vm._v(_vm._s(fixture.awayteam_name)),
-                    ]),
-                  ]
-                ),
-              ]),
-            ]
-          )
-        }),
-      ],
-      2
-    ),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(_vm._s(_vm.listTitle)),
+      ]),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "list-group list-group-flush" },
+        [
+          _vm._l(_vm.fixtures.data, function (fixture, index) {
+            return _c("li", { key: index, staticClass: "list-group-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "card-link row justify-content-center",
+                  attrs: { href: "/create/board/" + fixture.id },
+                },
+                [
+                  _c("span", { staticClass: "card-text col-4 text-center" }, [
+                    _vm._v(_vm._s(fixture.hometeam_name)),
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "card-text col-3 text-center" }, [
+                    _vm._v("VS"),
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "card-text col-4 text-center" }, [
+                    _vm._v(_vm._s(fixture.awayteam_name)),
+                  ]),
+                ]
+              ),
+            ])
+          }),
+          _vm._v(" "),
+          _c("li", { staticClass: "list-group-item" }, [
+            _c("div", { staticClass: "card-link row justify-content-center" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "col-4 offset-2",
+                  attrs: { href: _vm.fixtures.prev_page_url },
+                },
+                [_vm._v("PREV")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "col-3 offset-3",
+                  attrs: { href: _vm.fixtures.next_page_url },
+                },
+                [_vm._v("NEXT")]
+              ),
+            ]),
+          ]),
+        ],
+        2
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []
@@ -48757,7 +48912,13 @@ var render = function () {
           [
             _c("CardHeader", { attrs: { post: post } }),
             _vm._v(" "),
-            _c("CardBody", { attrs: { post: post, isIndex: _vm.isIndex } }),
+            _c("CardBody", {
+              attrs: {
+                post: post,
+                isIndex: _vm.isIndex,
+                likeThisPost: _vm.likeThisPost,
+              },
+            }),
             _vm._v(" "),
             _c("CardFooter", {
               directives: [
@@ -48872,37 +49033,91 @@ var render = function () {
                 _vm._v(_vm._s(_vm.selectedUser.name)),
               ]),
               _vm._v(" "),
-              !_vm.isFollowing
-                ? _c(
-                    "button",
+              _c(
+                "div",
+                {
+                  directives: [
                     {
-                      staticClass: "btn btn-primary mr-5",
-                      on: { click: _vm.followUser },
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.isSelf,
+                      expression: "!isSelf",
+                    },
+                  ],
+                },
+                [
+                  !_vm.isFollowing
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary mr-5",
+                          on: { click: _vm.followUser },
+                        },
+                        [
+                          _vm._v(
+                            "\n                        フォローする\n                    "
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isFollowing
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary mr-5",
+                          on: { click: _vm.unfollowUser },
+                        },
+                        [
+                          _vm._v(
+                            "\n                        フォローをやめる\n                    "
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.isSelf,
+                      expression: "isSelf",
+                    },
+                  ],
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { href: "/user/" + _vm.selectedUser.id + "/edit" },
                     },
                     [
                       _vm._v(
-                        "\n                    フォローする\n                "
+                        "\n                        プロフィール編集\n                    "
                       ),
                     ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.isFollowing
-                ? _c(
-                    "button",
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
                     {
-                      staticClass: "btn btn-primary mr-5",
-                      on: { click: _vm.unfollowUser },
+                      staticClass: "btn btn-primary",
+                      attrs: { href: "/logout" },
                     },
                     [
                       _vm._v(
-                        "\n                    フォローをやめる\n                "
+                        "\n                        ログアウト\n                    "
                       ),
                     ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c("i", { staticClass: "fa-solid fa-gear fa-lg" }),
+                  ),
+                ]
+              ),
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "under-side row py-4" }, [
@@ -48971,7 +49186,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profiel-inner-icon col-4" }, [
       _c("img", {
-        attrs: { src: "", alt: "Icon", width: "200", height: "200" },
+        staticClass: "rounded",
+        attrs: { src: "/storage/sample.jpg", alt: "Icon", width: "150" },
       }),
     ])
   },
@@ -49058,145 +49274,303 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "modal-content row flex-row col-10" }, [
-    _c(
-      "ul",
-      {
-        staticClass:
-          "modal-content-lineup py-5 col-6 list-unstyled row flex-column",
-      },
-      _vm._l(_vm.hometeamPlayers, function (hometeamPlayer, key) {
-        return _c(
-          "li",
-          { key: key, staticClass: "py-1 row justify-content-center" },
-          [
-            _c("span", { staticClass: "col-1" }, [
-              _vm._v(_vm._s(hometeamPlayer.number)),
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "col-7" }, [
-              _vm._v(_vm._s(hometeamPlayer.name)),
-            ]),
-            _vm._v(" "),
-            _c(
-              "select",
+  return _c(
+    "div",
+    {
+      staticClass:
+        "modal-content row flex-row col-7 flex-column justify-content-center py-3",
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "modal-content-teamname row align-items-center" },
+        [
+          _c("span", { staticClass: "col-6 text-center" }, [
+            _vm._v(_vm._s(_vm.hometeamName)),
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "col-6 text-center" }, [
+            _vm._v(_vm._s(_vm.awayteamName)),
+          ]),
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c(
+          "ul",
+          {
+            staticClass:
+              "modal-content-lineup py-3 col-6 list-unstyled row flex-column",
+          },
+          _vm._l(_vm.hometeamPlayers, function (hometeamPlayer, key, index) {
+            return _c(
+              "li",
               {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: hometeamPlayer.position,
-                    expression: "hometeamPlayer.position",
-                  },
-                ],
-                staticClass: "col-2 px-1",
-                on: {
-                  change: function ($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function (o) {
-                        return o.selected
-                      })
-                      .map(function (o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      hometeamPlayer,
-                      "position",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  },
-                },
+                key: key,
+                staticClass:
+                  "py-1 row justify-content-center align-items-center",
               },
-              _vm._l(_vm.positions, function (position, key) {
-                return _c("option", { key: key }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(position) +
-                      "\n                "
-                  ),
-                ])
-              }),
-              0
-            ),
-          ]
-        )
-      }),
-      0
-    ),
-    _vm._v(" "),
-    _c(
-      "ul",
-      {
-        staticClass:
-          "modal-content-lineup py-5 col-6 list-unstyled row flex-column",
-      },
-      _vm._l(_vm.awayteamPlayers, function (awayteamPlayer, key) {
-        return _c(
-          "li",
-          { key: key, staticClass: "py-1 row justify-content-center" },
-          [
-            _c("span", { staticClass: "col-1" }, [
-              _vm._v(_vm._s(awayteamPlayer.number)),
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "col-7" }, [
-              _vm._v(_vm._s(awayteamPlayer.name)),
-            ]),
-            _vm._v(" "),
-            _c(
-              "select",
+              [
+                _c("span", { staticClass: "col-1 px-0 text-center" }, [
+                  _vm._v(_vm._s(hometeamPlayer.number)),
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "col-6" }, [
+                  _vm._v(_vm._s(hometeamPlayer.name)),
+                ]),
+                _vm._v(" "),
+                index < 11
+                  ? _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: hometeamPlayer.position,
+                            expression: "hometeamPlayer.position",
+                          },
+                        ],
+                        staticClass: "col-3 custom-select p-0 text-center",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              hometeamPlayer,
+                              "position",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { selected: "" } }, [
+                          _vm._v("Choose..."),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.positions, function (position, key) {
+                          return _c("option", { key: key }, [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(position) +
+                                "\n                    "
+                            ),
+                          ])
+                        }),
+                      ],
+                      2
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                index >= 11
+                  ? _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: hometeamPlayer.position,
+                            expression: "hometeamPlayer.position",
+                          },
+                        ],
+                        staticClass: "col-3 custom-select p-0 text-center",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              hometeamPlayer,
+                              "position",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { selected: "" } }, [
+                          _vm._v("RESERVE"),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.positions, function (position, key) {
+                          return _c("option", { key: key }, [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(position) +
+                                "\n                    "
+                            ),
+                          ])
+                        }),
+                      ],
+                      2
+                    )
+                  : _vm._e(),
+              ]
+            )
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c(
+          "ul",
+          {
+            staticClass:
+              "modal-content-lineup py-3 col-6 list-unstyled row flex-column",
+          },
+          _vm._l(_vm.awayteamPlayers, function (awayteamPlayer, key, index) {
+            return _c(
+              "li",
               {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: awayteamPlayer.position,
-                    expression: "awayteamPlayer.position",
-                  },
-                ],
-                staticClass: "col-2 px-1",
-                on: {
-                  change: function ($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function (o) {
-                        return o.selected
-                      })
-                      .map(function (o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      awayteamPlayer,
-                      "position",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  },
-                },
+                key: key,
+                staticClass:
+                  "py-1 row justify-content-center align-items-center",
               },
-              _vm._l(_vm.positions, function (position, key) {
-                return _c("option", { key: key }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(position) +
-                      "\n                "
-                  ),
-                ])
-              }),
-              0
-            ),
-          ]
-        )
-      }),
-      0
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      { staticClass: "btn btn-primaty", on: { click: _vm.contentBtnClick } },
-      [_vm._v("完了")]
-    ),
-  ])
+              [
+                _c("span", { staticClass: "col-1 px-0 text-center" }, [
+                  _vm._v(_vm._s(awayteamPlayer.number)),
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "col-6" }, [
+                  _vm._v(_vm._s(awayteamPlayer.name)),
+                ]),
+                _vm._v(" "),
+                index < 11
+                  ? _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: awayteamPlayer.position,
+                            expression: "awayteamPlayer.position",
+                          },
+                        ],
+                        staticClass: "col-3 custom-select p-0 text-center",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              awayteamPlayer,
+                              "position",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { selected: "" } }, [
+                          _vm._v("Choose..."),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.positions, function (position, key) {
+                          return _c("option", { key: key }, [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(position) +
+                                "\n                    "
+                            ),
+                          ])
+                        }),
+                      ],
+                      2
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                index >= 11
+                  ? _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: awayteamPlayer.position,
+                            expression: "awayteamPlayer.position",
+                          },
+                        ],
+                        staticClass: "col-3 custom-select p-0 text-center",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              awayteamPlayer,
+                              "position",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { selected: "" } }, [
+                          _vm._v("RESERVE"),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.positions, function (position, key) {
+                          return _c("option", { key: key }, [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(position) +
+                                "\n                    "
+                            ),
+                          ])
+                        }),
+                      ],
+                      2
+                    )
+                  : _vm._e(),
+              ]
+            )
+          }),
+          0
+        ),
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary col-2 offset-10",
+          on: { click: _vm.contentBtnClick },
+        },
+        [_vm._v("\n        完了\n    ")]
+      ),
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -49228,7 +49602,10 @@ var render = function () {
       _vm._v(" "),
       _c("tactical-board-buttons", {
         attrs: { isPost: _vm.isPost },
-        on: { captureBoard: _vm.captureBoard },
+        on: {
+          captureBoard: _vm.captureBoard,
+          _changePlayers: _vm._changePlayers,
+        },
       }),
     ],
     1
@@ -49256,7 +49633,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "tactical-board-buttons col-10" }, [
+  return _c("div", { staticClass: "tactical-board-buttons col-12 mt-2" }, [
     _c("div", { staticClass: "row justify-content-between py-1" }, [
       _c("button", { staticClass: "col-2 btn btn-secondary" }, [
         _vm._v("戻る"),
@@ -49265,25 +49642,37 @@ var render = function () {
       _c("div", { staticClass: "col-4 row justify-content-end" }, [
         _c(
           "button",
-          { staticClass: "col-6 btn btn-success", on: { click: _vm._onclick } },
+          { staticClass: "col-3 btn mr-2", on: { click: _vm._changePlayers } },
+          [_vm._v("選手交代")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "col-3 btn btn-success", on: { click: _vm._onclick } },
           [_vm._v("保存する")]
         ),
         _vm._v(" "),
-        _vm._m(0),
+        _vm.isPost
+          ? _c(
+              "button",
+              { staticClass: "btn btn-primary next-button ml-2 col-3" },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "text-white",
+                    attrs: { href: "/post/create" },
+                  },
+                  [_vm._v("次へ")]
+                ),
+              ]
+            )
+          : _vm._e(),
       ]),
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "next-button d-none col-6" }, [
-      _c("a", { attrs: { href: "/post/create" } }, [_vm._v("次へ")]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

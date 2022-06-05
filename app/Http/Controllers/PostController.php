@@ -29,16 +29,14 @@ class PostController extends Controller
         
         if(preg_match("/\/user\/\d+/", $refererPath)){
             $user_id = str_replace("/user/", "", $refererPath);
-            $posts = Post::where('user_id',$user_id)->simplePaginate(3);
-            // Log::debug($posts);
+            $posts = Post::where('user_id',$user_id)->with(['user', 'fixture', 'comments.user', 'likes'])->simplePaginate(3);
         }else{
-            $posts = Post::simplePaginate(3);
+            $posts = Post::with(['user', 'fixture', 'comments.user', 'likes'])->simplePaginate(3);
         }
-
-        foreach($posts as $post) {
-            $post->fill($post->fixture->toArray());
-            $post->fill($post->user->toArray());
-        }
+        // foreach($posts as $post) {
+        //     $post->fill($post->fixture->toArray());
+        //     $post->fill($post->user->toArray());
+        // }
         
         return $posts;
     }
@@ -80,7 +78,6 @@ class PostController extends Controller
             Storage::disk('public')->put($fileName,$image);
             $columns["image{$image_number}"] = $fileName;
         }
-        Log::debug($request->textContent);
         $post->fill($columns)->save();
     }
 
@@ -92,8 +89,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::with(['user', 'fixture', 'comments.user'])->get()->find($id);
-        return view('post_detail',['post'=>$post]);
+        $post = Post::with(['user', 'fixture', 'comments.user', 'likes'])->get()->find($id);
+        
+        $likeThisPost = $post->checkUserLikePost();
+
+        return view('post_detail',compact('post', 'likeThisPost'));
     }
 
     /**

@@ -13,12 +13,14 @@ class GetMemberController extends Controller
         // dd($fixtureId);
         $fixtureInfo = Fixture::where('id',$fixtureId)->get()->toArray();
         // dd($fixtureInfo[0]['id']);
-        $homeTeamPlayers = Member::getSeparetedNameAndNumber($fixtureInfo[0]['id'], $fixtureInfo[0]['hometeam_name']);
-        $awayTeamPlayers = Member::getSeparetedNameAndNumber($fixtureInfo[0]['id'], $fixtureInfo[0]['awayteam_name']);
+        $hometeamName = $fixtureInfo[0]['hometeam_name'];
+        $awayteamName = $fixtureInfo[0]['awayteam_name'];
+        $hometeamPlayers = Member::getSeparetedNameAndNumber($fixtureInfo[0]['id'], $fixtureInfo[0]['hometeam_name']);
+        $awayteamPlayers = Member::getSeparetedNameAndNumber($fixtureInfo[0]['id'], $fixtureInfo[0]['awayteam_name']);
         $players = [
-            'hometeamPlayers'=>$homeTeamPlayers,
-            'awayteamPlayers'=>$awayTeamPlayers,
+            'hometeamPlayers'=>$hometeamPlayers,
+            'awayteamPlayers'=>$awayteamPlayers,
         ];
-        return $players;
+        return ['hometeamName'=>$hometeamName, 'awayteamName'=>$awayteamName, 'players'=>$players];
     }
 }

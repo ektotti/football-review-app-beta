@@ -41,8 +41,8 @@ class GetAndSaveFixturesInfo extends Command
      */
     public function handle()
     {
-        $month = Carbon::now()->format('m');
-        $fixtures = $this->usecase->run($month);
+        // $month = Carbon::now()->format('m');
+        $fixtures = $this->usecase->run(6);
        
         foreach($fixtures as $fixtureInfo){
             $fixture = new Fixture;

@@ -3,13 +3,15 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-// use Nesk\Puphpeteer\Puppeteer;
-// use App\UseCase\GetLineupUseCase;
 use App\Fixture;
 use App\Member;
 use App\UseCase\GetLineupUseCase;
 use Carbon\Carbon;
-// use App\Member;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+use function PHPUnit\Framework\throwException;
 
 class GetAndSaveLineup extends Command
 {
@@ -44,42 +46,55 @@ class GetAndSaveLineup extends Command
      */
     public function handle()
     {
-        $searchFrom = new Carbon('now');
-        // dd($searchFrom);
-        $searchTo = new Carbon('-30 days');
-        // dd("2022-04-02 14:03:00" > $searchFrom);
+        DB::beginTransaction();
+        try {
+            Member::where('player_1', null)->delete();
 
-        // $fixtures = Fixture::where('fixture_date_time', '>', $searchFrom)->where('fixture_date_time', '<', $searchTo)->get();
-        $fixtures = Fixture::all();
-        $fixtures = $fixtures->toArray();
-        // dd($fixtures);
-        if($fixtures) {
-            foreach($fixtures as $fixture){
+            $now = Carbon::now()->toDateTimeString();
+            file_put_contents('/tmp/sample.log', $now . PHP_EOL, FILE_APPEND);
+            $searchFrom = new Carbon('now');
+            // dd($searchFrom);
+            $searchTo = new Carbon('-30 days');
+            // dd("2022-04-02 14:03:00" > $searchFrom);
 
-                if(Member::where('fixture_id', $fixture['id'])->where('team_name', $fixture['hometeam_name'])->first()) {
-                    continue;
+            // $fixtures = Fixture::where('fixture_date_time', '>', $searchFrom)->where('fixture_date_time', '<', $searchTo)->get();
+            $fixtures = Fixture::all();
+            $fixtures = $fixtures->toArray();
+            // dd($fixtures);
+            if ($fixtures) {
+                foreach ($fixtures as $key => $fixture) {
+
+                    if (Member::where('fixture_id', $fixture['id'])->where('team_name', $fixture['hometeam_name'])->first()) {
+                        continue;
+                    }
+                    Log::debug($fixture);
+
+                    $homeTeamLineup = Member::create([
+                        'fixture_id' => $fixture['id'],
+                        'team_name' => $fixture['hometeam_name'],
+                        'status' => 'home',
+                    ]);
+
+                    $awayTeamLineup = Member::create([
+                        'fixture_id' => $fixture['id'],
+                        'team_name' => $fixture['awayteam_name'],
+                        'status' => 'away',
+                    ]);
+
+                    $matchUrl = $fixture['fixture_url'];
+                    $playerNameLists = GetLineupUseCase::run($matchUrl . '#live');
+
+                    $homeTeamLineup->fill($playerNameLists[0])->save();
+                    $awayTeamLineup->fill($playerNameLists[1])->save();
+
+                    DB::commit();
+                    sleep(10);
                 }
-
-                $homeTeamLineup = Member::create([
-                    'fixture_id' => $fixture['id'],
-                    'team_name' => $fixture['hometeam_name'],
-                    'status' => 'home',
-                ]);
-    
-                $awayTeamLineup = Member::create([
-                    'fixture_id' => $fixture['id'],
-                    'team_name' => $fixture['awayteam_name'],
-                    'status' => 'away',
-                ]);
-    
-                $matchUrl = $fixture['fixture_url'];
-                $playerNameLists = GetLineupUseCase::run($matchUrl.'#live');
-                
-                $homeTeamLineup->fill($playerNameLists[0])->save();
-                $awayTeamLineup->fill($playerNameLists[1])->save();
-
-                sleep(30);
             }
+        } catch (\Throwable $th) {
+            Log::debug('ラインナップエラー' . $th->getMessage());
+            DB::rollBack();
+            Artisan::call('get:lineup');
         }
     }
 }

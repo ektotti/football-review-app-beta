@@ -39,7 +39,6 @@ class ScheduleTest extends Command
     public function handle()
     {
         $now = Carbon::now()->toDateTimeString();
-        echo $now;
         file_put_contents('/tmp/sample.log', $now.PHP_EOL, FILE_APPEND);
     }
 }

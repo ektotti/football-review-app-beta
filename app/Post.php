@@ -1,8 +1,9 @@
 <?php
 
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+
 
 class Post extends Model
 {
@@ -10,14 +11,30 @@ class Post extends Model
         'id',
     ];
 
-    function fixture() {
+    public function fixture() {
         return $this->belongsTo('App\Fixture');
     }
-    function user() {
+    public function user() {
         return $this->belongsTo('App\User');
     }
 
-    function comments(){
+    public function comments(){
         return $this->hasMany('App\Comment');
     }
+
+    public function likes(){
+        return $this->hasMany('App\Like');
+    }
+
+    public function checkUserLikePost () {
+        
+        $filterd = $this->likes->filter(function($value, $key) {
+            $loginUser = Auth::user();
+            return $value->user_id == $loginUser->id;
+        });
+        if($filterd){
+            return true;
+        }
+        return false;
+    } 
 }

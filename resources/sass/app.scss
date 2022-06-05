@@ -84,6 +84,7 @@
 .tactical-board{
     position: relative;
     &-field {
+        position: relative;
         width: 100%;
         aspect-ratio: 845/575;
         // border:1px solid black;
@@ -128,185 +129,193 @@
     }
 }
 
+.modal-content-lineup{
+    & li{
+        height: 30px;
+    }
+    & .custom-select{
+        height:25px;
+    }
+}
+
 .hometeam-players{
     &.GK{
         left:$first-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
     &.CB{
         left:$second-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
     &.RCB{
         left:$second-line;
-        top:$right-half-lane;
+        top:$sixth-lane;
     }
     &.LCB{
         left:$second-line;
-        top:$left-half-lane;
+        top:$second-lane;
     }
     &.RSB{
         left:$second-line;
-        top:$right-side-lane;
+        top:$seventh-lane;
     }
     &.LSB{
         left:$second-line;
-        top:$left-side-lane;
+        top:$first-lane;
     }
     &.ANK{
         left:$tird-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
     &.RCH{
         left:$tird-line;
-        top:$right-half-lane;
+        top:$third-lane;
     }
     &.LCH{
         left:$tird-line;
-        top:$left-half-lane;
+        top:$fifth-lane;
     }
     &.RWB{
         left:$tird-line;
-        top:$right-side-lane;
+        top:$seventh-lane;
     }
     &.LWB{
         left:$tird-line;
-        top:$left-side-lane;
+        top:$first-lane;
     }
     &.RSH{
         left:$fourth-line;
-        top:$right-side-lane;
+        top:$seventh-lane;
     }
     &.LSH{
         left:$fourth-line;
-        top:$left-side-lane;
+        top:$first-lane;
     }
     &.RIH{
         left:$fourth-line;
-        top:$right-half-lane;
+        top:$fifth-lane;
     }
     &.LIH{
         left:$fourth-line;
-        top:$left-half-lane;
+        top:$third-lane;
     }
     &.OMF{
         left:$fifth-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
     &.RWG{
         left:$fifth-line;
-        top:$right-side-lane;
+        top:$seventh-lane;
     }
     &.LWG{
         left:$fifth-line;
-        top:$left-side-lane;
-    }
-    &.OMF{
-        left:$fourth-line;
-        top:$center-lane;
+        top:$first-lane;
     }
     &.RST{
         left:$fourth-line;
-        top:$right-half-lane;
+        top:$sixth-lane;
     }
     &.LST{
         left:$fourth-line;
-        top:$right-half-lane;
+        top:$second-lane;
     }
     &.CF{
         left:$fifth-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
+    &.RESERVE{
+        display:none
+    }
+
 }
 
 .awayteam-players{
     &.GK{
         left:$sixth-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
     &.CB{
         left:$seventh-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
     &.RCB{
         left:$seventh-line;
-        top:$left-half-lane;
+        top:$second-lane;
     }
     &.LCB{
         left:$seventh-line;
-        top:$right-half-lane;
+        top:$sixth-lane;
     }
     &.RSB{
         left:$seventh-line;
-        top:$left-side-lane;
+        top:$first-lane;
     }
     &.LSB{
         left:$seventh-line;
-        top:$right-side-lane;
+        top:$seventh-lane;
     }
     &.ANK{
         left:$eighth-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
     &.RCH{
         left:$eighth-line;
-        top:$left-half-lane;
+        top:$fifth-lane;
     }
     &.LCH{
         left:$eighth-line;
-        top:$right-half-lane;
+        top:$third-lane;
     }
     &.RWB{
         left:$eighth-line;
-        top:$left-side-lane;
+        top:$first-lane;
     }
     &.LWB{
         left:$eighth-line;
-        top:$right-side-lane;
+        top:$seventh-lane;
     }
     &.RSH{
         left:$ninth-line;
-        top:$left-side-lane;
+        top:$first-lane;
     }
     &.LSH{
         left:$ninth-line;
-        top:$right-side-lane;
+        top:$seventh-lane;
     }
     &.RIH{
         left:$ninth-line;
-        top:$left-half-lane;
+        top:$third-lane;
     }
     &.LIH{
         left:$ninth-line;
-        top:$right-half-lane;
+        top:$fifth-lane;
     }
     &.OMF{
         left:$tenth-line;
-        top:$center-lane;
+        top:$fourth-lane;
     }
     &.RWG{
         left:$tenth-line;
-        top:$left-side-lane;
+        top:$first-lane;
     }
     &.LWG{
         left:$tenth-line;
-        top:$right-side-lane;
-    }
-    &.OMF{
-        left:$fourth-line;
-        top:$center-lane;
+        top:$seventh-lane;
     }
     &.RST{
         left:$ninth-line;
-        top:$left-half-lane;
+        top:$second-lane;
     }
     &.LST{
         left:$ninth-line;
-        top:$right-half-lane;
+        top:$sixth-lane;
     }
     &.CF{
         left:$tenth-line;
-        top:$center-lane;
+        top:$fourth-lane;
+    }
+    &.RESERVE{
+        display:none
     }
 }
 

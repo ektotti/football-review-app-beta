@@ -26,8 +26,11 @@ if(! function_exists('fomatTame')){
      * 
      */
     function formatTime($time){
-        preg_match("/[0-9]{2}:{1}[0-9]{2}/",$time, $m);
-        return $m[0].':00';
+        if(preg_match("/[0-9]{2}:{1}[0-9]{2}/",$time, $m)){
+            return $m[0].':00';
+        }else{
+            return '00:00:00';
+        };
     }
 }
 
