@@ -54,9 +54,9 @@
         </div>
         <portal to="modal">
             <Modal
-                @contentBtnClick="show = false"
-                :show="show"
-                :relationList="relationList"
+                @contentBtnClick="showModal=false"
+                :showModal="showModal"
+                :args="relationList"
                 :modalContent="'RelationShipList'"
             >
             </Modal>
@@ -79,7 +79,7 @@ export default {
     },
     data: function () {
         return {
-            show: false,
+            showModal: false,
             relationList: [],
             followingUserAmount: this.selectedUser.following_user.length,   
             followedUserAmount: this.selectedUser.followed_user.length   
@@ -109,14 +109,16 @@ export default {
                 `/relationship/follow/${this.selectedUser.id}`
             );
             this.relationList = response.data;
-            this.show = true;
+            console.log(this.showModal);
+            this.showModal = true;
+            console.log(this.showModal);
         },
         showFollowers: async function () {
             let response = await Axios.get(
                 `/relationship/follower/${this.selectedUser.id}`
             );
             this.relationList = response.data;
-            this.show = true;
+            this.showModal = true;
         },
     },
 };

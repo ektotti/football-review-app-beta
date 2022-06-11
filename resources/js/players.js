@@ -11,21 +11,24 @@ export const players = {
     },
     methods: {
         _onMouseDown: function ($e) {
-            this.moveStart = true;
+            this.moveStart = false;
             $e.target.classList.add("mouseDowned");
+            console.log($e.offsetY);
+            console.log(this.$parent.$el.getBoundingClientRect().top);
             this.offsetTop =
-                $e.offsetY + this.$parent.$el.getBoundingClientRect().top + 10;
+                $e.offsetY + this.$parent.$el.getBoundingClientRect().top + 5
             this.offsetLeft =
-                $e.offsetX + this.$parent.$el.getBoundingClientRect().left + 10;
+                $e.offsetX + this.$parent.$el.getBoundingClientRect().left + 5
+            document.querySelector('#field').addEventListener('mousemove',this._onMouseMove);
         },
         _onMouseMove: function ($e) {
-            if (this.moveStart) {
                 this.ElementTop = $e.clientY - this.offsetTop;
                 this.ElementLeft = $e.clientX - this.offsetLeft;
-            }
+                document.querySelector('#field').addEventListener('mounseup',this._onMouseUp);
         },
         _onMouseUp: function ($e) {
             this.moveStart = false;
+            document.querySelector('#field').removeEventListener('mousemove',this._onMouseMove);
             $e.target.classList.remove("mouseDowned");
             this.ElementTop += 10
             this.ElementLeft += 10;

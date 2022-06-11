@@ -37,4 +37,9 @@ class Post extends Model
         }
         return false;
     } 
+
+    public function checkIsSelf () {
+        $loginUser = Auth::user();
+        return $this->user_id === $loginUser->id;
+    }
 }

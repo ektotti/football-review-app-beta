@@ -20,7 +20,7 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('comment_user_id');
             $table->text('body');
             $table->timestamps();
-            $table->foreign('post_id')->references('id')->on('users');
+            $table->foreign('post_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

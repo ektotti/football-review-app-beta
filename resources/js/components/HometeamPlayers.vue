@@ -7,7 +7,6 @@
         <div
             class="point"
             @mousedown="_onMouseDown"
-            @mousemove="_onMouseMove"
             @mouseup="_onMouseUp"
             @mouseleave="_onMouseLeave"
         >

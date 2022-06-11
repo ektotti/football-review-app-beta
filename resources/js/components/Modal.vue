@@ -1,9 +1,9 @@
 <template>
-    <div class="modal-base row justify-content-center" v-show="show">
+    <div class="modal-base row justify-content-center" v-show="showModal">
         <div class="modal-overlay text-center"></div>
         <component
             :is="modalContent"
-            :relationList="relationList"
+            :args="args"
             @contentBtnClick="contentBtnClick"
         ></component>
     </div>
@@ -11,13 +11,17 @@
 
 <script>
 import SetPostions from "./SetPostions";
+import DeletePost from "./DeletePost";
 import CreatePostInfo from "./CreatePostInfo";
 import RelationShipList from "./RelationshipList";
 export default {
     props: {
-        show: '',
+        showModal: {
+            required: true,
+            type: Boolean,
+        },
         modalContent: '',
-        relationList: []
+        args:[]
     },
     methods: {
         contentBtnClick: function (...args) {
@@ -28,9 +32,13 @@ export default {
         },
     },
     components: {
+        DeletePost,
         SetPostions,
         CreatePostInfo,
         RelationShipList
     },
+    mounted: function() {
+        console.log(this.args);
+    }
 };
 </script>

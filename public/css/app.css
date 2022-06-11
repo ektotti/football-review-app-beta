@@ -21302,13 +21302,14 @@ readers do not read off random characters that represent icons */
 .hometeam-players {
   background-color: transparent;
   position: absolute;
+  z-index: 100;
 }
 
 .hometeam-players .point {
   border: 2px solid white;
   color: white;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background-color: transparent;
   position: relative;
@@ -21334,21 +21335,23 @@ readers do not read off random characters that represent icons */
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-size: small;
+  font-size: medium;
   position: relative;
   top: -5px;
   color: white;
+  font-weight: lighter;
 }
 
 .awayteam-players {
   background-color: transparent;
   position: absolute;
+  z-index: 100;
 }
 
 .awayteam-players .point {
   border: 2px solid #fcfcfc;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.4705882353);
   color: #ffffff;
@@ -21375,7 +21378,7 @@ readers do not read off random characters that represent icons */
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-size: small;
+  font-size: medium;
   position: relative;
   top: -5px;
   color: white;
@@ -21406,6 +21409,7 @@ readers do not read off random characters that represent icons */
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
 }
 
 .modal-overlay {

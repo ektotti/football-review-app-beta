@@ -72,9 +72,9 @@ class PostController extends Controller
         for($i = 0; $i < count($request->images); $i++) {
             $image_number = $i + 1;
             $imageData = $request->images[$i];
-            $imageData = preg_replace("/data\:image\/png\;base64,/", '', $imageData);
+            $imageData = preg_replace("/data\:image\/jpeg\;base64,/", '', $imageData);
             $image = base64_decode($imageData);
-            $fileName = Uuid::uuid4() . '.png';
+            $fileName = Uuid::uuid4() . '.jpeg';
             Storage::disk('public')->put($fileName,$image);
             $columns["image{$image_number}"] = $fileName;
         }
@@ -90,10 +90,10 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::with(['user', 'fixture', 'comments.user', 'likes'])->get()->find($id);
-        
+        $isSelf = $post->checkIsSelf();
         $likeThisPost = $post->checkUserLikePost();
 
-        return view('post_detail',compact('post', 'likeThisPost'));
+        return view('post_detail',compact('post', 'likeThisPost', 'isSelf'));
     }
 
     /**
@@ -127,6 +127,15 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        for ($i=1; $i <= 4; $i++) {
+
+            if($post["image$i"]){
+                Storage::disk('public')->delete($post["image$i"]);
+            }
+        }
+        Post::destroy($id);
+        $isIndex = true;
+         return view('/home', compact('isIndex'));
     }
 }

@@ -20,10 +20,11 @@
             :name="awayteamPlayersInPosition.name | formatPlayerName"
         >
         </AwayteamPlayers>
+        <Canvas ref="canvas"></Canvas>
         <portal to="modal">
             <Modal
                 @contentBtnClick="setPlayers"
-                :show="show"
+                :showModal="showModal"
                 :modalContent="'SetPostions'"
             >
             </Modal>
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import Canvas from "./Canvas.vue";
 import HometeamPlayers from "./HometeamPlayers.vue";
 import AwayteamPlayers from "./AwayteamPlayers.vue";
 import Modal from "./Modal.vue";
@@ -40,14 +42,12 @@ import html2canvas from "html2canvas";
 
 Vue.use(PortalVue);
 export default {
-    props: [
-
-    ],
+    props: [],
     data: function () {
         return {
             hometeamPlayersInPositions: {},
             awayteamPlayersInPositions: {},
-            show : true,
+            showModal: true,
         };
     },
     computed: {
@@ -77,27 +77,28 @@ export default {
     methods: {
         capture: async function () {
             let canvas = await html2canvas(this.$el, {
-                scale :1,
+                scale: 2,
             });
-            let canvasData = await canvas.toDataURL();
-            for(let i = 1; i <= 4; i++){
-                if(!sessionStorage.getItem(`image${i}`)){
+            let canvasData = await canvas.toDataURL('image/jpeg');
+            for (let i = 1; i <= 4; i++) {
+                if (!sessionStorage.getItem(`image${i}`)) {
                     sessionStorage.setItem(`image${i}`, canvasData);
-                    break
+                    break;
                 }
             }
-            alert('一時保存しました。');
+            alert("一時保存しました。");
         },
         setPlayers: function (...args) {
             this.hometeamPlayersInPositions = args[0][0];
             this.awayteamPlayersInPositions = args[0][1];
-            this.show = false;
+            this.showModal = false;
         },
     },
     components: {
         HometeamPlayers,
         AwayteamPlayers,
         Modal,
+        Canvas,
     },
 };
 </script>

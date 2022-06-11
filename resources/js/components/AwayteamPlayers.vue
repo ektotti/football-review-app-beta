@@ -7,7 +7,6 @@
         <div
             class="point"
             @mousedown="_onMouseDown"
-            @mousemove="_onMouseMove"
             @mouseup="_onMouseUp"
             @mouseleave="_onMouseLeave"
         >
@@ -16,7 +15,6 @@
         <span class="name">{{ name }}</span>
     </div>
 </template>
-
 <script>
 import { players } from "../players.js";
 export default {
