@@ -2,7 +2,7 @@
 
 @section('content')
 <tactical-board 
-:is-post="true"
+:is-post='@json($isPost)'
 :init-hometeam-players='@json($hometeamMember)' 
 :init-awayteam-players='@json($awayteamMember)'
 :selected-fixture='@json($selectedFixture)'

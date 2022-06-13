@@ -2291,6 +2291,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
 
@@ -2307,16 +2326,12 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
     return {
       images: [],
       textContent: "レビューを書きましょう！",
-      show: false
+      showModal: false
     };
   },
   mounted: function mounted() {
-    for (var i = 1; i <= 4; i++) {
-      if (sessionStorage.getItem("image".concat(i))) {
-        var imageData = sessionStorage.getItem("image".concat(i));
-        this.images.push(imageData);
-      }
-    }
+    this.setImagesFromSession();
+    console.log(this.showModal);
   },
   methods: {
     sendForm: function () {
@@ -2327,21 +2342,22 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
             switch (_context.prev = _context.next) {
               case 0:
                 axios__WEBPACK_IMPORTED_MODULE_4___default.a.interceptors.request.use(function (request) {
-                  console.log('Starting Request: ', request);
+                  console.log("Starting Request: ", request);
                   return request;
                 });
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/post', {
-                  'textContent': this.textContent,
-                  'images': this.images
+                return axios__WEBPACK_IMPORTED_MODULE_4___default.a.post("/post", {
+                  textContent: this.textContent,
+                  images: this.images
                 });
 
               case 3:
                 response = _context.sent;
 
                 if (response.status == 200) {
-                  console.log('naze:', response.status);
-                  this.show = true;
+                  this.showModal = true;
+                  console.log(this.showModal);
+                  this.removeImagesFromSession();
                 }
 
               case 5:
@@ -2357,7 +2373,41 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
       }
 
       return sendForm;
-    }()
+    }(),
+    upLoadImages: function upLoadImages(e) {
+      this.images = [];
+      console.log(e.target.files);
+
+      for (var key in e.target.files) {
+        var reader = new FileReader();
+        reader.readAsDataURL(e.target.files[key]);
+
+        reader.onload = function (e) {
+          console.log("onload");
+          console.log(this);
+          var imageData = e.target.result;
+          console.log(imageData);
+          this.images.push(imageData);
+        }.bind(this);
+      }
+    },
+    setImagesFromSession: function setImagesFromSession() {
+      for (var i = 1; i <= 4; i++) {
+        if (sessionStorage.getItem("image".concat(i))) {
+          var imageData = sessionStorage.getItem("image".concat(i));
+          this.images.push(imageData);
+        }
+      }
+    },
+    removeImagesFromSession: function removeImagesFromSession() {
+      for (var i = 1; i <= 4; i++) {
+        if (sessionStorage.getItem("image".concat(i))) {
+          sessionStorage.removeItem("image".concat(i));
+        } else {
+          return;
+        }
+      }
+    }
   },
   components: {
     PostImageCarousel: _PostImageCarousel_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -2519,7 +2569,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: [],
+  props: ["isPost"],
   data: function data() {
     return {
       hometeamPlayersInPositions: {},
@@ -2558,7 +2608,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
   methods: {
     capture: function () {
       var _capture = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var canvas, canvasData, i;
+        var canvas, canvasData, i, downloadEl;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2571,35 +2621,49 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
               case 2:
                 canvas = _context.sent;
                 _context.next = 5;
-                return canvas.toDataURL('image/jpeg');
+                return canvas.toDataURL("image/jpeg");
 
               case 5:
                 canvasData = _context.sent;
+
+                if (!this.isPost) {
+                  _context.next = 18;
+                  break;
+                }
+
                 i = 1;
 
-              case 7:
+              case 8:
                 if (!(i <= 4)) {
-                  _context.next = 14;
+                  _context.next = 15;
                   break;
                 }
 
                 if (sessionStorage.getItem("image".concat(i))) {
-                  _context.next = 11;
+                  _context.next = 12;
                   break;
                 }
 
                 sessionStorage.setItem("image".concat(i), canvasData);
-                return _context.abrupt("break", 14);
+                return _context.abrupt("break", 15);
 
-              case 11:
+              case 12:
                 i++;
-                _context.next = 7;
+                _context.next = 8;
                 break;
 
-              case 14:
-                alert("一時保存しました。");
-
               case 15:
+                alert("一時保存しました。");
+                _context.next = 22;
+                break;
+
+              case 18:
+                downloadEl = document.createElement("a");
+                downloadEl.setAttribute("href", canvasData);
+                downloadEl.download = "football_review_app_".concat(Date.now());
+                downloadEl.click();
+
+              case 22:
               case "end":
                 return _context.stop();
             }
@@ -2706,38 +2770,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              console.log(this.isComingSoon);
-
               if (this.isComingSoon) {
-                _context.next = 8;
+                _context.next = 7;
                 break;
               }
 
-              _context.next = 4;
+              _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/fixture/recent");
 
-            case 4:
+            case 3:
               response = _context.sent;
               this.fixtures = response.data.data;
               this.nextPageUrl = response.data.next_page_url;
               this.prevPageUrl = response.data.prev_page_url;
 
-            case 8:
+            case 7:
               if (!this.isComingSoon) {
-                _context.next = 15;
+                _context.next = 14;
                 break;
               }
 
-              _context.next = 11;
+              _context.next = 10;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/fixture/coming_soon");
 
-            case 11:
+            case 10:
               _response = _context.sent;
               this.fixtures = _response.data.data;
               this.nextPageUrl = _response.data.next_page_url;
               this.prevPageUrl = _response.data.prev_page_url;
 
-            case 15:
+            case 14:
             case "end":
               return _context.stop();
           }
@@ -2901,6 +2963,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     console.log(this.args);
+    console.log(this.showModal);
   }
 });
 
@@ -3033,6 +3096,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.initPost.images = this.getImageName(this.initPost);
       this.posts.push(this.initPost);
     }
+
+    console.log(this.post);
   },
   components: {
     infinitLoading: vue_infinite_loading__WEBPACK_IMPORTED_MODULE_2___default.a
@@ -3584,6 +3649,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["isPost"],
   data: function data() {
@@ -3671,15 +3737,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["isPost"],
-  // mounted:function(){
-  //     console.log(this.isPost);
-  //     if(this.isPost == true) {
-  //         let button = this.$el.querySelector('.next-button');
-  //         button.classList.remove('d-none');
-  //     }
-  // },
+  props: ["isPost", "refererPath"],
   methods: {
     _onclick: function _onclick() {
       this.$emit("captureBoard");
@@ -81905,7 +81965,7 @@ var render = function () {
               staticClass: "btn py-0 mt-4 mb-2 px-0",
               on: {
                 click: function ($event) {
-                  _vm.show = !_vm.showComment
+                  _vm.showComment = !_vm.showComment
                 },
               },
             },
@@ -82135,56 +82195,86 @@ var render = function () {
     "div",
     { staticClass: "main-content-warapper" },
     [
-      _c("div", { staticClass: "main-content-inner row" }, [
-        _c(
-          "div",
-          { staticClass: "slide col-8" },
-          [
-            _c("post-image-carousel", {
-              attrs: { images: _vm.images, width: 600, isCreate: true },
-            }),
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "textcontent col-4" }, [
-          _c("input", {
-            attrs: { type: "hidden", name: "_token" },
-            domProps: { value: _vm.csrf },
-          }),
-          _vm._v(" "),
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.textContent,
-                expression: "textContent",
-              },
+      _c("div", { staticClass: "main-content-inner row justify-content-end" }, [
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "slide col-8 px-0" },
+            [
+              _c("post-image-carousel", {
+                attrs: { images: _vm.images, width: 600, isCreate: true },
+              }),
             ],
-            attrs: { cols: "30", rows: "10" },
-            domProps: { value: _vm.textContent },
-            on: {
-              input: function ($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.textContent = $event.target.value
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "textcontent col-4 px-0" }, [
+            _c("input", {
+              attrs: { type: "hidden", name: "_token" },
+              domProps: { value: _vm.csrf },
+            }),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.textContent,
+                  expression: "textContent",
+                },
+              ],
+              staticClass: "col-12 border-0",
+              domProps: { value: _vm.textContent },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.textContent = $event.target.value
+                },
               },
-            },
-          }),
+            }),
+          ]),
         ]),
         _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn btn-primary", on: { click: _vm.sendForm } },
-          [_vm._v("投稿する")]
-        ),
+        _c("div", { staticClass: "mt-3" }, [
+          _c("label", { staticClass: "mb-0", attrs: { for: "file_upload" } }, [
+            _vm._v("デバイスから選ぶ"),
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "d-none",
+            attrs: {
+              type: "file",
+              name: "file",
+              id: "file_upload",
+              accept: "image/*",
+              multiple: "",
+            },
+            on: { change: _vm.upLoadImages },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary ml-2",
+              on: { click: _vm.sendForm },
+            },
+            [_vm._v("\n                投稿する\n            ")]
+          ),
+        ]),
       ]),
       _vm._v(" "),
-      _c("Modal", {
-        attrs: { show: _vm.show, modalContent: "CreatePostInfo" },
-      }),
+      _c(
+        "portal",
+        { attrs: { to: "modal" } },
+        [
+          _c("Modal", {
+            attrs: { showModal: _vm.showModal, modalContent: "CreatePostInfo" },
+          }),
+        ],
+        1
+      ),
     ],
     1
   )
@@ -83361,7 +83451,7 @@ var render = function () {
     "div",
     { staticClass: "tactical-board row flex-column align-items-center" },
     [
-      _c("field", { ref: "field" }),
+      _c("field", { ref: "field", attrs: { isPost: _vm.isPost } }),
       _vm._v(" "),
       _c("tactical-board-buttons", {
         attrs: { isPost: _vm.isPost },
@@ -83418,29 +83508,25 @@ var render = function () {
           [_vm._v("\n                テキスト\n            ")]
         ),
         _vm._v(" "),
-        _vm.isPost
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-primary ml-2 col-3",
-                attrs: { id: "line" },
-                on: { click: _vm._onClickLine },
-              },
-              [_vm._v("\n                実線\n            ")]
-            )
-          : _vm._e(),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary ml-2 col-3",
+            attrs: { id: "line" },
+            on: { click: _vm._onClickLine },
+          },
+          [_vm._v("\n                実線\n            ")]
+        ),
         _vm._v(" "),
-        _vm.isPost
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-danger ml-2 col-3",
-                attrs: { id: "delete", disabled: "" },
-                on: { click: _vm._onClickDelete },
-              },
-              [_vm._v("\n                削除\n            ")]
-            )
-          : _vm._e(),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-danger ml-2 col-3",
+            attrs: { id: "delete", disabled: "" },
+            on: { click: _vm._onClickDelete },
+          },
+          [_vm._v("\n                削除\n            ")]
+        ),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-5 row justify-content-end" }, [
@@ -83452,11 +83538,27 @@ var render = function () {
           [_vm._v("\n                交代\n            ")]
         ),
         _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "col-3 btn btn-success", on: { click: _vm._onclick } },
-          [_vm._v("\n                保存\n            ")]
-        ),
+        _vm.isPost
+          ? _c(
+              "button",
+              {
+                staticClass: "col-3 btn btn-success",
+                on: { click: _vm._onclick },
+              },
+              [_vm._v("\n                一時保存\n            ")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.isPost
+          ? _c(
+              "button",
+              {
+                staticClass: "col-3 btn btn-success",
+                on: { click: _vm._onclick },
+              },
+              [_vm._v("\n                ダウンロード\n            ")]
+            )
+          : _vm._e(),
         _vm._v(" "),
         _vm.isPost
           ? _c(

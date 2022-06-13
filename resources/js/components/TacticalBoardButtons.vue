@@ -7,7 +7,6 @@
                     テキスト
                 </button>
                 <button
-                    v-if="isPost"
                     class="btn btn-primary ml-2 col-3"
                     @click="_onClickLine"
                     id="line"
@@ -15,7 +14,6 @@
                     実線
                 </button>
                 <button
-                    v-if="isPost"
                     class="btn btn-danger ml-2 col-3"
                     @click="_onClickDelete"
                     id="delete"
@@ -31,8 +29,11 @@
                 <button class="col-3 btn mr-2" @click="_changePlayers">
                     交代
                 </button>
-                <button class="col-3 btn btn-success" @click="_onclick">
-                    保存
+                <button v-if="isPost" class="col-3 btn btn-success" @click="_onclick">
+                    一時保存
+                </button>
+                <button v-if="!isPost" class="col-4 btn btn-success" @click="_onclick">
+                    ダウンロード
                 </button>
                 <button
                     v-if="isPost"
@@ -47,14 +48,10 @@
 
 <script>
 export default {
-    props: ["isPost"],
-    // mounted:function(){
-    //     console.log(this.isPost);
-    //     if(this.isPost == true) {
-    //         let button = this.$el.querySelector('.next-button');
-    //         button.classList.remove('d-none');
-    //     }
-    // },
+    props:[
+        "isPost",
+        "refererPath",
+    ],
     methods: {
         _onclick: function () {
             this.$emit("captureBoard");

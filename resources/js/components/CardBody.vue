@@ -37,7 +37,7 @@
         </div>
         <button
             class="btn py-0 mt-4 mb-2 px-0"
-            @click="show = !showComment"
+            @click="showComment = !showComment"
             v-if="!isIndex"
         >
             コメントを見る

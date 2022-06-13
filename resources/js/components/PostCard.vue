@@ -60,6 +60,7 @@ export default {
             this.initPost.images = this.getImageName(this.initPost);
             this.posts.push(this.initPost)
         }
+        console.log(this.post);
     },
     components: {
         infinitLoading,

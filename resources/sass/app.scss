@@ -103,7 +103,7 @@
         top: 0;
         left: 0;
         right: 0;
-        z-index:1000;
+        z-index: 1000;
     }
     &-overlay {
         position: fixed;
@@ -138,6 +138,10 @@
     & .custom-select {
         height: 25px;
     }
+}
+
+.textcontent textarea {
+    height: 100%;
 }
 
 .hometeam-players {

@@ -46,7 +46,6 @@ export default {
         };
     },
     mounted: async function () {
-        console.log(this.isComingSoon)
         if(!this.isComingSoon) {
             let response = await Axios.get("/fixture/recent");
             this.fixtures = response.data.data;
