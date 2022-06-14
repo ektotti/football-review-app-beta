@@ -1,13 +1,13 @@
 <template>
     <div class="tactical-board-buttons col-12 mt-2">
-        <div class="row justify-ceontent-between py-1">
+        <div class="row justify-content-between">
             <div class="col-5 row justify-content-center">
-                <button class="col-2 btn mr-2" @click="_onClickRect">□</button>
-                <button class="col-3 btn btn-success" @click="_onClickText">
+                <button class="col-2 btn mr-2 btn-drawing" @click="_onClickRect">□</button>
+                <button class="col-3 btn btn-drawing" @click="_onClickText">
                     テキスト
                 </button>
                 <button
-                    class="btn btn-primary ml-2 col-3"
+                    class="btn btn-drawing ml-2 col-3"
                     @click="_onClickLine"
                     id="line"
                 >
@@ -23,16 +23,16 @@
                 </button>
             </div>
             <div class="col-5 row justify-content-end">
-                <button class="col-0.5 btn btn-secondary">
-                    <a href="/create/prepare">戻る</a>
+                <button class="col-0.5 btn border mr-2">
+                    <a class="text-black" href="/create/prepare">戻る</a>
                 </button>
-                <button class="col-3 btn mr-2" @click="_changePlayers">
+                <button class="col-2 btn border mr-2" @click="_changePlayers">
                     交代
                 </button>
-                <button v-if="isPost" class="col-3 btn btn-success" @click="_onclick">
+                <button v-if="isPost" class="col-3 btn border" @click="_onclick">
                     一時保存
                 </button>
-                <button v-if="!isPost" class="col-4 btn btn-success" @click="_onclick">
+                <button v-if="!isPost" class="col-4 btn border" @click="_onclick">
                     ダウンロード
                 </button>
                 <button

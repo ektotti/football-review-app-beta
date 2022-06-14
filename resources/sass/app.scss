@@ -144,6 +144,12 @@
     height: 100%;
 }
 
+.btn-drawing {
+    border-color: $darksilver !important;
+    border:solid 3px;
+    background-color: $lightsilver !important;
+}
+
 .hometeam-players {
     &.GK {
         left: $first-line;

@@ -21446,6 +21446,12 @@ readers do not read off random characters that represent icons */
   height: 100%;
 }
 
+.btn-drawing {
+  border-color: #848788 !important;
+  border: solid 3px;
+  background-color: #9EACB4 !important;
+}
+
 .hometeam-players.GK {
   left: 2%;
   top: 47%;

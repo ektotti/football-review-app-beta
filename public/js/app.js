@@ -83491,18 +83491,21 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "tactical-board-buttons col-12 mt-2" }, [
-    _c("div", { staticClass: "row justify-ceontent-between py-1" }, [
+    _c("div", { staticClass: "row justify-content-between" }, [
       _c("div", { staticClass: "col-5 row justify-content-center" }, [
         _c(
           "button",
-          { staticClass: "col-2 btn mr-2", on: { click: _vm._onClickRect } },
+          {
+            staticClass: "col-2 btn mr-2 btn-drawing",
+            on: { click: _vm._onClickRect },
+          },
           [_vm._v("□")]
         ),
         _vm._v(" "),
         _c(
           "button",
           {
-            staticClass: "col-3 btn btn-success",
+            staticClass: "col-3 btn btn-drawing",
             on: { click: _vm._onClickText },
           },
           [_vm._v("\n                テキスト\n            ")]
@@ -83511,7 +83514,7 @@ var render = function () {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary ml-2 col-3",
+            staticClass: "btn btn-drawing ml-2 col-3",
             attrs: { id: "line" },
             on: { click: _vm._onClickLine },
           },
@@ -83534,17 +83537,17 @@ var render = function () {
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "col-3 btn mr-2", on: { click: _vm._changePlayers } },
+          {
+            staticClass: "col-2 btn border mr-2",
+            on: { click: _vm._changePlayers },
+          },
           [_vm._v("\n                交代\n            ")]
         ),
         _vm._v(" "),
         _vm.isPost
           ? _c(
               "button",
-              {
-                staticClass: "col-3 btn btn-success",
-                on: { click: _vm._onclick },
-              },
+              { staticClass: "col-3 btn border", on: { click: _vm._onclick } },
               [_vm._v("\n                一時保存\n            ")]
             )
           : _vm._e(),
@@ -83552,10 +83555,7 @@ var render = function () {
         !_vm.isPost
           ? _c(
               "button",
-              {
-                staticClass: "col-3 btn btn-success",
-                on: { click: _vm._onclick },
-              },
+              { staticClass: "col-4 btn border", on: { click: _vm._onclick } },
               [_vm._v("\n                ダウンロード\n            ")]
             )
           : _vm._e(),
@@ -83585,8 +83585,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "col-0.5 btn btn-secondary" }, [
-      _c("a", { attrs: { href: "/create/prepare" } }, [_vm._v("戻る")]),
+    return _c("button", { staticClass: "col-0.5 btn border mr-2" }, [
+      _c(
+        "a",
+        { staticClass: "text-black", attrs: { href: "/create/prepare" } },
+        [_vm._v("戻る")]
+      ),
     ])
   },
 ]
