@@ -42,7 +42,7 @@ import html2canvas from "html2canvas";
 
 Vue.use(PortalVue);
 export default {
-    props: ["selectedMatch"],
+    props: ["isPost"],
     data: function () {
         return {
             hometeamPlayersInPositions: {},
@@ -79,14 +79,22 @@ export default {
             let canvas = await html2canvas(this.$el, {
                 scale: 2,
             });
-            let canvasData = await canvas.toDataURL('image/jpeg');
-            for (let i = 1; i <= 4; i++) {
-                if (!sessionStorage.getItem(`image${i}`)) {
-                    sessionStorage.setItem(`image${i}`, canvasData);
-                    break;
+            let canvasData = await canvas.toDataURL("image/jpeg");
+
+            if (this.isPost) {
+                for (let i = 1; i <= 4; i++) {
+                    if (!sessionStorage.getItem(`image${i}`)) {
+                        sessionStorage.setItem(`image${i}`, canvasData);
+                        break;
+                    }
                 }
+                alert("一時保存しました。");
+            } else {
+                let downloadEl = document.createElement("a");
+                downloadEl.setAttribute("href", canvasData);
+                downloadEl.download = `football_review_app_${Date.now()}`;
+                downloadEl.click();
             }
-            alert("一時保存しました。");
         },
         setPlayers: function (...args) {
             this.hometeamPlayersInPositions = args[0][0];

@@ -39,6 +39,7 @@ export default {
     },
     mounted: function() {
         console.log(this.args);
+        console.log(this.showModal);
     }
 };
 </script>

@@ -44,6 +44,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $fixtureId = $request->session()->get('fixture_id');
+        Log::debug($fixtureId);
         $user = Auth::user();
         $post = new Post;
         $columns = [

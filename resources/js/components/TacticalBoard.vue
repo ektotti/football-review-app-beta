@@ -2,7 +2,7 @@
     <div class="tactical-board row flex-column align-items-center">
         <field
             ref="field"
-            :selectedMatch="selectedMatch"
+            :isPost="isPost"
         ></field>
         <tactical-board-buttons
             @captureBoard="captureBoard"
