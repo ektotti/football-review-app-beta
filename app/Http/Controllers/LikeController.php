@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function add(Request $request){
         $loginUser = Auth::user();
         $userId = $loginUser->id;

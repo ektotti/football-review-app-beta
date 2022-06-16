@@ -10,7 +10,7 @@
                 >
                     <a
                         class="card-link row justify-content-center"
-                        :href="'/create/board/' + fixture.id"
+                        :href="'/create/board?fixture_id=' + fixture.id"
                     >
                         <span class="card-text col-4 text-center">{{
                             fixture.hometeam_name
@@ -47,13 +47,13 @@ export default {
     },
     mounted: async function () {
         if(!this.isComingSoon) {
-            let response = await Axios.get("/fixture/recent");
+            let response = await Axios.get("/api/fixture/recent");
             this.fixtures = response.data.data;
             this.nextPageUrl = response.data.next_page_url;
             this.prevPageUrl = response.data.prev_page_url;
         }
         if(this.isComingSoon) {
-            let response = await Axios.get("/fixture/coming_soon");
+            let response = await Axios.get("/api/fixture/coming_soon");
             this.fixtures = response.data.data;
             this.nextPageUrl = response.data.next_page_url;
             this.prevPageUrl = response.data.prev_page_url;

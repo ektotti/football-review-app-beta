@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/post', '\App\Http\Controllers\GetPostsController');
+Route::get('/players', '\App\Http\Controllers\GetMemberController');
+Route::get('/fixture/recent', '\App\Http\Controllers\FixtureController@getRecentFixtures');
+Route::get('/fixture/coming_soon', '\App\Http\Controllers\FixtureController@getComingSoonFixtures');

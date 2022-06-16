@@ -23,22 +23,6 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = [];
-        $refererUrl = parse_url($_SERVER['HTTP_REFERER']);
-        $refererPath = $refererUrl['path'];
-        
-        if(preg_match("/\/user\/\d+/", $refererPath)){
-            $user_id = str_replace("/user/", "", $refererPath);
-            $posts = Post::where('user_id',$user_id)->with(['user', 'fixture', 'comments.user', 'likes'])->simplePaginate(3);
-        }else{
-            $posts = Post::with(['user', 'fixture', 'comments.user', 'likes'])->simplePaginate(3);
-        }
-        // foreach($posts as $post) {
-        //     $post->fill($post->fixture->toArray());
-        //     $post->fill($post->user->toArray());
-        // }
-        
-        return $posts;
     }
 
     /**
@@ -137,6 +121,6 @@ class PostController extends Controller
         }
         Post::destroy($id);
         $isIndex = true;
-         return view('/home', compact('isIndex'));
+         return view('/', compact('isIndex'));
     }
 }

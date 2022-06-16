@@ -19,6 +19,7 @@
 export default {
     props:[
         "isPost",
+        "selectedMatch"
     ],
     data: function(){
         return {

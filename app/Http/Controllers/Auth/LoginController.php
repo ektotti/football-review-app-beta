@@ -56,7 +56,7 @@ class LoginController extends Controller
         $user = $this->findOrCreateUser($userFromProvider, $provider);
         if($user) {
             Auth::login($user, true);
-            return redirect('/home');
+            return redirect('/');
         } else {
             return redirect('/login');
         }
