@@ -42,7 +42,7 @@ import html2canvas from "html2canvas";
 
 Vue.use(PortalVue);
 export default {
-    props: [],
+    props: ["selectedMatch"],
     data: function () {
         return {
             hometeamPlayersInPositions: {},

@@ -122,7 +122,8 @@ export default {
         };
     },
     mounted: async function () {
-        let response = await axios.get("/players_json");
+        let fixtureIdParam = location.search;
+        let response = await axios.get(`/api/players${fixtureIdParam}`);
         console.log(response.data);
         this.hometeamPlayers = response.data.players.hometeamPlayers;
         this.awayteamPlayers = response.data.players.awayteamPlayers;

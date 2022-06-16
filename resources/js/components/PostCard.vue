@@ -38,7 +38,7 @@ export default {
     },
     methods: {
         infiniteHandler: async function ($state) {
-            let response = await Axios.get("/post?page=" + this.page);
+            let response = await Axios.get("/api/post?page=" + this.page);
 
             for (let PostObj of response.data.data) {
                 PostObj.images = this.getImageName(PostObj);

@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Log;
 
 class RelationshipController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function follow(Request $request) {
         $relationship = Relationship::where('user_id', $request->loginUserId)
                                     ->where('following_user_id', $request->selectedUserId)

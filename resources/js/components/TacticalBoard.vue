@@ -2,6 +2,7 @@
     <div class="tactical-board row flex-column align-items-center">
         <field
             ref="field"
+            :selectedMatch="selectedMatch"
         ></field>
         <tactical-board-buttons
             @captureBoard="captureBoard"
@@ -18,6 +19,7 @@
 export default {
     props:[
         "isPost",
+        "selectedMatch"
     ],
     data: function(){
         return {

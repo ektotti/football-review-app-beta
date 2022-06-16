@@ -14,26 +14,25 @@
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes(['verify' => true]);
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/login/{provider}', '\App\Http\Controllers\Auth\LoginController@redirectToProvider')->where('provider', 'google|twitter');
 Route::get('/login/{provider}/callback', '\App\Http\Controllers\Auth\LoginController@callbackFromProvider')->where('provider', 'google|twitter');
-Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->middleware('auth');
 
-Route::get('/board/{id}', '\App\Http\Controllers\BoardController@index');
-Route::get('/players_json', '\App\Http\Controllers\GetMemberController@getMember');
+Route::get('/board', '\App\Http\Controllers\BoardController@index')->middleware('auth');
 
 Route::post('/capture', '\App\Http\Controllers\CaptureController@index');
 Route::get('/create/prepare', '\App\Http\Controllers\PrecreateController@index');
-Route::get('/create/board/{id}', '\App\Http\Controllers\PrecreateController@board');
+Route::get('/create/board', '\App\Http\Controllers\PrecreateController@board')->middleware('auth');
 
-Route::resource('/post','\App\Http\Controllers\PostController');
-Route::resource('/user','\App\Http\Controllers\UserController');
-Route::resource('/comment','\App\Http\Controllers\CommentController');
+Route::resource('/post','\App\Http\Controllers\PostController')->middleware('auth');
+Route::resource('/user','\App\Http\Controllers\UserController')->middleware('auth');
+Route::resource('/comment','\App\Http\Controllers\CommentController')->middleware('auth');
 
 Route::post('/relationship/follow', '\App\Http\Controllers\RelationshipController@follow');
 Route::post('/relationship/unfollow', '\App\Http\Controllers\RelationshipController@unfollow');
@@ -42,6 +41,3 @@ Route::get('/relationship/follower/{id}', '\App\Http\Controllers\RelationshipCon
 
 Route::get('/like/{postId}', '\App\Http\Controllers\LikeController@add');
 Route::get('/unlike/{postId}', '\App\Http\Controllers\LikeController@remove');
-
-Route::get('/fixture/recent', '\App\Http\Controllers\FixtureController@getRecentFixtures');
-Route::get('/fixture/coming_soon', '\App\Http\Controllers\FixtureController@getComingSoonFixtures');
