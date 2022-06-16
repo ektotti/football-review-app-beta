@@ -2536,11 +2536,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
-<<<<<<< HEAD
-  props: ["selectedMatch"],
-=======
   props: ["isPost"],
->>>>>>> master
   data: function data() {
     return {
       hometeamPlayersInPositions: {},
@@ -2747,11 +2743,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }
 
               _context.next = 3;
-<<<<<<< HEAD
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/fixture/recent");
-=======
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/fixture/recent");
->>>>>>> master
 
             case 3:
               response = _context.sent;
@@ -2766,11 +2758,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }
 
               _context.next = 10;
-<<<<<<< HEAD
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/fixture/coming_soon");
-=======
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/fixture/coming_soon");
->>>>>>> master
 
             case 10:
               _response = _context.sent;
@@ -83386,14 +83374,7 @@ var render = function () {
     "div",
     { staticClass: "tactical-board row flex-column align-items-center" },
     [
-<<<<<<< HEAD
-      _c("field", {
-        ref: "field",
-        attrs: { selectedMatch: _vm.selectedMatch },
-      }),
-=======
       _c("field", { ref: "field", attrs: { isPost: _vm.isPost } }),
->>>>>>> master
       _vm._v(" "),
       _c("tactical-board-buttons", {
         attrs: { isPost: _vm.isPost },
