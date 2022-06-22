@@ -9,7 +9,7 @@
                     :key="index"
                 >
                     <a
-                        class="card-link row justify-content-center"
+                        class="card-link row justify-content-center text-body"
                         :href="'/create/board?fixture_id=' + fixture.id"
                     >
                         <span class="card-text col-4 text-center">{{

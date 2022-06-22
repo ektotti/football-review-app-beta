@@ -77,7 +77,6 @@ export default {
             }
         },
         _onClickDelete: function () {
-            console.log('deleteまできているよ');
             this.canvas.remove(this.canvas.getActiveObject());
         },
     },

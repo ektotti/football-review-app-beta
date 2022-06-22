@@ -30,9 +30,9 @@ Route::post('/capture', '\App\Http\Controllers\CaptureController@index');
 Route::get('/create/prepare', '\App\Http\Controllers\PrecreateController@index');
 Route::get('/create/board', '\App\Http\Controllers\PrecreateController@board')->middleware('auth');
 
-Route::resource('/post','\App\Http\Controllers\PostController')->middleware('auth');
-Route::resource('/user','\App\Http\Controllers\UserController')->middleware('auth');
-Route::resource('/comment','\App\Http\Controllers\CommentController')->middleware('auth');
+Route::resource('/post','\App\Http\Controllers\PostController', ['only'=>['create', 'store', 'show', 'update', 'destroy']])->middleware('auth');
+Route::resource('/user','\App\Http\Controllers\UserController', ['only'=>['show', 'edit', 'update', 'destroy']])->middleware('auth');
+Route::resource('/comment','\App\Http\Controllers\CommentController', ['only'=>['store']])->middleware('auth');
 
 Route::post('/relationship/follow', '\App\Http\Controllers\RelationshipController@follow');
 Route::post('/relationship/unfollow', '\App\Http\Controllers\RelationshipController@unfollow');

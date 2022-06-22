@@ -15,6 +15,7 @@ class PrecreateController extends Controller
     }
 
     public function board(Request $request){
+        $request->session()->put('fixture_id', $request->fixture_id);
         return view('create_board');
     }
 }

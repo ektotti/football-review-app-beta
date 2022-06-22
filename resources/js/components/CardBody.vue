@@ -15,25 +15,58 @@
             <i class="fa-regular fa-comment fa-lg mr-1"></i>
             <span>{{ post.comments.length }}</span>
         </div>
-        <div class="card-body row my-2 align-items-center py-2" v-if="!isIndex">
-            <a :href="`/unlike/${post.id}`" v-if="likeThisPost">
+        <div class="card-body row mb-2 align-items-center py-2" v-if="!isIndex">
+            <a
+                class="text-body"
+                :href="`/unlike/${post.id}`"
+                v-if="likeThisPost"
+            >
                 <i class="fa-solid fa-heart fa-lg mr-1"></i>
             </a>
-            <a :href="`/like/${post.id}`" v-if="!likeThisPost">
+            <a
+                class="text-body"
+                :href="`/like/${post.id}`"
+                v-if="!likeThisPost"
+            >
                 <i class="fa-regular fa-heart fa-lg mr-1"></i>
             </a>
             <span class="mr-3">{{ post.likes.length }}</span>
             <i class="fa-regular fa-comment fa-lg mr-1"></i>
             <span class="mr-3">{{ post.comments.length }}</span>
-            <a href="" v-if="isSelf">
-                <i class="fa-solid fa-pen-to-square fa-lg mr-3"></i>
-            </a>
+            <span class="text-body" href="" v-if="isSelf">
+                <i
+                    class="fa-solid fa-pen-to-square fa-lg mr-2"
+                    @click="modifyMode=!modifyMode"
+                ></i>
+            </span>
             <button class="btn" v-if="isSelf">
-                <i class="fa-solid fa-trash fa-lg mr-1" @click="showModal=true"></i>
+                <i
+                    class="fa-solid fa-trash fa-lg mr-1"
+                    @click="showModal = true"
+                ></i>
             </button>
         </div>
         <div class="card-body-text" v-if="!isIndex">
-            <span>{{ post.body }}</span>
+            <span v-if="!modifyMode">{{ post.body }}</span>
+            <form
+                class="d-flex col-12 px-0 align-self-start"
+                :action="`/post/${post.id}`"
+                method="POST"
+                v-if="modifyMode"
+            >
+                <input type="hidden" name="_token" :value="csrf" />
+                <input type="hidden" name="_method" value="PUT" />
+                <textarea
+                    class="col-11 border-0 form-control"
+                    name="body"
+                    id="floatingTextarea"
+                    cols="10"
+                    rows="2"
+                > {{ post.body }} </textarea>
+                <button type="submit" class="btn px-0 mx-auto">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
         </div>
         <button
             class="btn py-0 mt-4 mb-2 px-0"
@@ -54,10 +87,10 @@
         </ul>
         <portal to="modal">
             <Modal
-                @contentBtnClick="showModal=false"
+                @contentBtnClick="showModal = false"
                 :showModal="showModal"
                 :modalContent="'DeletePost'"
-                :args="{postId:post.id}"
+                :args="{ postId: post.id }"
                 v-if="!isIndex"
             >
             </Modal>
@@ -86,10 +119,12 @@ export default {
         return {
             showComment: false,
             showModal: false,
+            modifyMode: false,
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         };
     },
     components: {
         Modal,
-    }
+    },
 };
 </script>

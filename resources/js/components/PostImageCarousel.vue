@@ -1,22 +1,10 @@
 <template>
-    <carousel :perPage="1"
-    :navigationEnabled="true"
-    :paginationEnabled="false"
-    >
+    <carousel :perPage="1" :navigationEnabled="isIndex" :paginationEnabled="!isIndex">
         <slide v-for="(image, index) in images" :key="index">
-            <a :href="'/post/'+postId" v-if="!isCreate">
-                <img
-                    :src="'/storage/'+image"
-                    alt=""
-                    class="col-12 px-0"
-                />
+            <a :href="'/post/' + postId" v-if="isIndex">
+                <img :src="`${imagesPath}${image}`" alt="" class="col-12 px-0" />
             </a>
-            <img
-                    :src="image"
-                    alt=""
-                    class="col-12 px-0"
-                    v-if="isCreate"
-                />
+            <img :src="`${imagesPath}${image}`" alt="" class="col-12 px-0" v-if="!isIndex" />
         </slide>
     </carousel>
 </template>
@@ -24,23 +12,26 @@
 import { Carousel, Slide } from "vue-carousel";
 export default {
     props: {
-        images:[],
-        isCreate:'',
-        postId:'',
+        images: [],
+        isIndex: "",
+        postId: "",
+        isCreate: "",
     },
-    data: function() {
-        return{
-            show:false,
+    data: function () {
+        return {
+            imagesPath: '',
+        };
+    },
+    mounted: function () {
+        if (this.isCreate) {
+            this.imagesPath = ''; 
+        } else {
+            this.imagesPath = '/storage/'
         }
     },
     components: {
         Carousel,
         Slide,
     },
-    mounted: function(){
-        if(this.postId != null){
-            this.show = true;
-        }
-    }
 };
 </script>

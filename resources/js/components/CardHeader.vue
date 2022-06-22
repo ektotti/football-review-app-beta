@@ -1,8 +1,9 @@
 <template>
     <div class="card-header" id="post-card-header">
         <div class="card-body py-0 row justify-content-between align-items-center">
-            <a :href="'/user/'+post.user.id">
-                <span class="col-2 px-0">{{ post.user.name }}</span>
+            <a class="text-body bg-transparent" :href="'/user/'+post.user.id">
+                <span class="bg-transparent col-2 px-0" v-if="post.user.nickname">{{ post.user.nickname }}</span>
+                <span class="bg-transparent col-2 px-0" v-if="!post.user.nickname">{{ post.user.name }}</span>
             </a> 
             <h3 class="col-6">{{ post.title }}</h3>
             <a

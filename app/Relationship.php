@@ -18,9 +18,9 @@ class Relationship extends Model
     }
     static function getFollowingUserList($userId) {
         $followingUserList = [];
-        $followingUsers = Relationship::where('user_id',$userId)->get();
+        $followingUsers = Relationship::where('user_id',$userId)->with('followedUser')->get();
         for($i = 0; $i < $followingUsers->count(); $i++) {
-            $followingUserList[] = $followingUsers[$i]->followedUser;
+            $followingUserList[] = $followingUsers[$i]->followedUser->toArray();
         }
         return $followingUserList;
     }

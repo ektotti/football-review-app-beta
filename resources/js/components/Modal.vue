@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-base row justify-content-center" v-show="showModal">
+    <div class="modal-base row justify-content-center" v-if="showModal">
         <div class="modal-overlay text-center"></div>
         <component
             :is="modalContent"
@@ -37,9 +37,5 @@ export default {
         CreatePostInfo,
         RelationShipList
     },
-    mounted: function() {
-        console.log(this.args);
-        console.log(this.showModal);
-    }
 };
 </script>

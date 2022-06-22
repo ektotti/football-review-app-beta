@@ -1,17 +1,19 @@
 <template>
     <div class="main-content-warapper">
-        <div class="main-content-inner row justify-content-end">
+        <div class="main-content-inner">
             <div class="row">
                 <div class="slide col-8 px-0">
                     <post-image-carousel
                         :images="images"
                         :width="600"
+                        :isIndex="false"
                         :isCreate="true"
                     >
                     </post-image-carousel>
                 </div>
                 <div class="textcontent col-4 px-0">
                     <input type="hidden" name="_token" :value="csrf" />
+                    <input type="text" class="border-0 col-12 mb-2 py-2" v-model="title">
                     <textarea
                         v-model="textContent"
                         class="col-12 border-0"
@@ -60,12 +62,15 @@ export default {
         return {
             images: [],
             textContent: "レビューを書きましょう！",
+            title: "タイトル",
             showModal: false,
         };
     },
     mounted: function () {
         this.setImagesFromSession();
-        console.log(this.showModal);
+        if(this.images.length >= 4) {
+            this.$el.querySelector('#file_upload').setAttribute('disabled');
+        }
     },
     methods: {
         sendForm: async function () {
@@ -80,40 +85,36 @@ export default {
 
             if (response.status == 200) {
                 this.showModal = true;
-                console.log(this.showModal);
                 this.removeImagesFromSession();
             }
         },
         upLoadImages: function (e) {
-            this.images = [];
-            console.log(e.target.files);
+            let fileList = e.target.files;
+            let imagesFromSession = JSON.parse(sessionStorage.getItem('images'));
+            if(imagesFromSession.length + fileList.length > 4){
+                alert("1度に投稿できる画像は4枚までです。");
+                return;
+            }
             for (let key in e.target.files) {
                 let reader = new FileReader();
                 reader.readAsDataURL(e.target.files[key]);
                 reader.onload = function (e) {
-                    console.log("onload");
-                    console.log(this);
-                    let imageData = e.target.result;
-                    console.log(imageData);
-                    this.images.push(imageData);
+                    this.images.push(e.target.result);
                 }.bind(this);
             }
         },
         setImagesFromSession: function () {
-            for (let i = 1; i <= 4; i++) {
-                if (sessionStorage.getItem(`image${i}`)) {
-                    let imageData = sessionStorage.getItem(`image${i}`);
-                    this.images.push(imageData);
-                }
+            if(JSON.parse(sessionStorage.getItem('images'))){
+                this.images = JSON.parse(sessionStorage.getItem('images'));
+            } else {
+                return;
             }
         },
         removeImagesFromSession: function () {
-            for (let i = 1; i <= 4; i++) {
-                if (sessionStorage.getItem(`image${i}`)) {
-                    sessionStorage.removeItem(`image${i}`);
-                } else {
-                    return;
-                }
+            if (sessionStorage.getItem('images')) {
+                sessionStorage.removeItem('images');
+            } else {
+                return;
             }
         },
     },

@@ -21299,6 +21299,12 @@ readers do not read off random characters that represent icons */
   content: "\F63F";
 }
 
+body {
+  background-image: url(/images/body_bg_image.jpeg?7dc97eadec60ab3c4880a82219b86a9d);
+  background-position: center;
+  background-size: 100%;
+}
+
 .hometeam-players {
   background-color: transparent;
   position: absolute;
@@ -21308,8 +21314,8 @@ readers do not read off random characters that represent icons */
 .hometeam-players .point {
   border: 2px solid white;
   color: white;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: transparent;
   position: relative;
@@ -21328,6 +21334,7 @@ readers do not read off random characters that represent icons */
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-size: 1.5rem;
 }
 
 .hometeam-players .name {
@@ -21335,7 +21342,7 @@ readers do not read off random characters that represent icons */
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-size: medium;
+  font-size: small;
   position: relative;
   top: -5px;
   color: white;
@@ -21350,8 +21357,8 @@ readers do not read off random characters that represent icons */
 
 .awayteam-players .point {
   border: 2px solid #fcfcfc;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.4705882353);
   color: #ffffff;
@@ -21371,6 +21378,7 @@ readers do not read off random characters that represent icons */
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-size: 1.5rem;
 }
 
 .awayteam-players .name {
@@ -21378,10 +21386,11 @@ readers do not read off random characters that represent icons */
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-size: medium;
+  font-size: small;
   position: relative;
   top: -5px;
   color: white;
+  font-weight: lighter;
 }
 
 .mouseDowned {
@@ -21402,6 +21411,10 @@ readers do not read off random characters that represent icons */
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
+}
+
+.tactical-board-buttons label {
+  font-size: x-small;
 }
 
 .modal-base {
@@ -21450,6 +21463,10 @@ readers do not read off random characters that represent icons */
   border-color: #848788 !important;
   border: solid 3px;
   background-color: #9EACB4 !important;
+}
+
+.VueCarousel-dot-container {
+  margin-top: 0px !important;
 }
 
 .hometeam-players.GK {

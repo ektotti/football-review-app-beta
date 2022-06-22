@@ -12,6 +12,13 @@
             >
                 <li
                     class="py-1 row justify-content-center align-items-center"
+                >
+                    <span class="col-1 px-0 text-center"> No. </span>
+                    <span class="col-6"> Name </span>
+                    <span class="col-3 p-0 text-center"> Position </span>
+                </li>
+                <li
+                    class="py-1 row justify-content-center align-items-center"
                     v-for="(hometeamPlayer, key, index) in hometeamPlayers"
                     :key="key"
                 >
@@ -44,6 +51,13 @@
             <ul
                 class="modal-content-lineup py-3 col-6 list-unstyled row flex-column"
             >
+                <li
+                    class="py-1 row justify-content-center align-items-center"
+                >
+                    <span class="col-1 px-0 text-center"> No. </span>
+                    <span class="col-6"> Name </span>
+                    <span class="col-3 p-0 text-center"> Position </span>
+                </li>
                 <li
                     class="py-1 row justify-content-center align-items-center"
                     v-for="(awayteamPlayer, key, index) in awayteamPlayers"

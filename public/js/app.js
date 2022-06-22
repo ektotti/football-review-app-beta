@@ -2032,7 +2032,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     _onClickDelete: function _onClickDelete() {
-      console.log('deleteまできているよ');
       this.canvas.remove(this.canvas.getActiveObject());
     }
   },
@@ -2121,6 +2120,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -2141,7 +2173,9 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
   data: function data() {
     return {
       showComment: false,
-      showModal: false
+      showModal: false,
+      modifyMode: false,
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
   components: {
@@ -2210,6 +2244,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2310,6 +2345,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
 
@@ -2326,12 +2363,16 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
     return {
       images: [],
       textContent: "レビューを書きましょう！",
+      title: "タイトル",
       showModal: false
     };
   },
   mounted: function mounted() {
     this.setImagesFromSession();
-    console.log(this.showModal);
+
+    if (this.images.length >= 4) {
+      this.$el.querySelector('#file_upload').setAttribute('disabled');
+    }
   },
   methods: {
     sendForm: function () {
@@ -2356,7 +2397,6 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
 
                 if (response.status == 200) {
                   this.showModal = true;
-                  console.log(this.showModal);
                   this.removeImagesFromSession();
                 }
 
@@ -2375,37 +2415,35 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
       return sendForm;
     }(),
     upLoadImages: function upLoadImages(e) {
-      this.images = [];
-      console.log(e.target.files);
+      var fileList = e.target.files;
+      var imagesFromSession = JSON.parse(sessionStorage.getItem('images'));
+
+      if (imagesFromSession.length + fileList.length > 4) {
+        alert("1度に投稿できる画像は4枚までです。");
+        return;
+      }
 
       for (var key in e.target.files) {
         var reader = new FileReader();
         reader.readAsDataURL(e.target.files[key]);
 
         reader.onload = function (e) {
-          console.log("onload");
-          console.log(this);
-          var imageData = e.target.result;
-          console.log(imageData);
-          this.images.push(imageData);
+          this.images.push(e.target.result);
         }.bind(this);
       }
     },
     setImagesFromSession: function setImagesFromSession() {
-      for (var i = 1; i <= 4; i++) {
-        if (sessionStorage.getItem("image".concat(i))) {
-          var imageData = sessionStorage.getItem("image".concat(i));
-          this.images.push(imageData);
-        }
+      if (JSON.parse(sessionStorage.getItem('images'))) {
+        this.images = JSON.parse(sessionStorage.getItem('images'));
+      } else {
+        return;
       }
     },
     removeImagesFromSession: function removeImagesFromSession() {
-      for (var i = 1; i <= 4; i++) {
-        if (sessionStorage.getItem("image".concat(i))) {
-          sessionStorage.removeItem("image".concat(i));
-        } else {
-          return;
-        }
+      if (sessionStorage.getItem('images')) {
+        sessionStorage.removeItem('images');
+      } else {
+        return;
       }
     }
   },
@@ -2488,6 +2526,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
 /* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_6__);
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2541,7 +2585,8 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
     return {
       hometeamPlayersInPositions: {},
       awayteamPlayersInPositions: {},
-      showModal: true
+      showModal: true,
+      images: []
     };
   },
   computed: {
@@ -2575,62 +2620,46 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
   methods: {
     capture: function () {
       var _capture = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var canvas, canvasData, i, downloadEl;
+        var canvas, canvasData, downloadEl;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                if (!(this.images.length >= 4)) {
+                  _context.next = 3;
+                  break;
+                }
+
+                alert("1度に投稿できる画像は4枚までです。");
+                return _context.abrupt("return");
+
+              case 3:
+                _context.next = 5;
                 return html2canvas__WEBPACK_IMPORTED_MODULE_6___default()(this.$el, {
                   scale: 2
                 });
 
-              case 2:
+              case 5:
                 canvas = _context.sent;
-                _context.next = 5;
+                _context.next = 8;
                 return canvas.toDataURL("image/jpeg");
 
-              case 5:
+              case 8:
                 canvasData = _context.sent;
 
-                if (!this.isPost) {
-                  _context.next = 18;
-                  break;
+                if (this.isPost) {
+                  this.images.push(canvasData);
+                  sessionStorage.setItem("images", JSON.stringify(this.images));
+                  alert("一時保存しました。");
+                  this.hasImage();
+                } else {
+                  downloadEl = document.createElement("a");
+                  downloadEl.setAttribute("href", canvasData);
+                  downloadEl.download = "football_review_app_".concat(Date.now());
+                  downloadEl.click();
                 }
 
-                i = 1;
-
-              case 8:
-                if (!(i <= 4)) {
-                  _context.next = 15;
-                  break;
-                }
-
-                if (sessionStorage.getItem("image".concat(i))) {
-                  _context.next = 12;
-                  break;
-                }
-
-                sessionStorage.setItem("image".concat(i), canvasData);
-                return _context.abrupt("break", 15);
-
-              case 12:
-                i++;
-                _context.next = 8;
-                break;
-
-              case 15:
-                alert("一時保存しました。");
-                _context.next = 22;
-                break;
-
-              case 18:
-                downloadEl = document.createElement("a");
-                downloadEl.setAttribute("href", canvasData);
-                downloadEl.download = "football_review_app_".concat(Date.now());
-                downloadEl.click();
-
-              case 22:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -2652,7 +2681,113 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
       this.hometeamPlayersInPositions = args[0][0];
       this.awayteamPlayersInPositions = args[0][1];
       this.showModal = false;
+    },
+    removeImagesFromSession: function removeImagesFromSession() {
+      if (sessionStorage.getItem("images")) {
+        sessionStorage.removeItem("images");
+      } else {
+        return;
+      }
+    },
+    upLoadImages: function () {
+      var _upLoadImages = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e) {
+        var _JSON$parse;
+
+        var imagesFromSession, fileList, _iterator, _step, fileObj, linkEl;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                imagesFromSession = (_JSON$parse = JSON.parse(sessionStorage.getItem("images"))) !== null && _JSON$parse !== void 0 ? _JSON$parse : [];
+                fileList = e.target.files;
+
+                if (!(imagesFromSession.length + fileList.length > 4)) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                alert("1度に投稿できる画像は4枚までです。");
+                return _context2.abrupt("return");
+
+              case 5:
+                _iterator = _createForOfIteratorHelper(fileList);
+                _context2.prev = 6;
+
+                _iterator.s();
+
+              case 8:
+                if ((_step = _iterator.n()).done) {
+                  _context2.next = 15;
+                  break;
+                }
+
+                fileObj = _step.value;
+                _context2.next = 12;
+                return this.fileReader(fileObj, this);
+
+              case 12:
+                console.log(this.image);
+
+              case 13:
+                _context2.next = 8;
+                break;
+
+              case 15:
+                _context2.next = 20;
+                break;
+
+              case 17:
+                _context2.prev = 17;
+                _context2.t0 = _context2["catch"](6);
+
+                _iterator.e(_context2.t0);
+
+              case 20:
+                _context2.prev = 20;
+
+                _iterator.f();
+
+                return _context2.finish(20);
+
+              case 23:
+                sessionStorage.setItem("images", JSON.stringify(this.images));
+                linkEl = document.createElement("a");
+                linkEl.setAttribute("href", "/post/create");
+                linkEl.click();
+
+              case 27:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[6, 17, 20, 23]]);
+      }));
+
+      function upLoadImages(_x) {
+        return _upLoadImages.apply(this, arguments);
+      }
+
+      return upLoadImages;
+    }(),
+    fileReader: function fileReader(fileObj, that) {
+      return new Promise(function (resolve) {
+        console.log("ここは？", that);
+        var reader = new FileReader();
+        reader.readAsDataURL(fileObj);
+
+        reader.onload = function (e) {
+          that.images.push(e.target.result);
+          resolve();
+        };
+      });
+    },
+    hasImage: function hasImage() {
+      this.$emit("hasImage");
     }
+  },
+  mounted: function mounted() {
+    this.removeImagesFromSession();
   },
   components: {
     HometeamPlayers: _HometeamPlayers_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -2927,10 +3062,6 @@ __webpack_require__.r(__webpack_exports__);
     SetPostions: _SetPostions__WEBPACK_IMPORTED_MODULE_0__["default"],
     CreatePostInfo: _CreatePostInfo__WEBPACK_IMPORTED_MODULE_2__["default"],
     RelationShipList: _RelationshipList__WEBPACK_IMPORTED_MODULE_3__["default"]
-  },
-  mounted: function mounted() {
-    console.log(this.args);
-    console.log(this.showModal);
   }
 });
 
@@ -3094,38 +3225,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     images: [],
-    isCreate: '',
-    postId: ''
+    isIndex: "",
+    postId: "",
+    isCreate: ""
   },
   data: function data() {
     return {
-      show: false
+      imagesPath: ''
     };
+  },
+  mounted: function mounted() {
+    if (this.isCreate) {
+      this.imagesPath = '';
+    } else {
+      this.imagesPath = '/storage/';
+    }
   },
   components: {
     Carousel: vue_carousel__WEBPACK_IMPORTED_MODULE_0__["Carousel"],
     Slide: vue_carousel__WEBPACK_IMPORTED_MODULE_0__["Slide"]
-  },
-  mounted: function mounted() {
-    if (this.postId != null) {
-      this.show = true;
-    }
   }
 });
 
@@ -3217,6 +3339,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -3232,7 +3356,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
   data: function data() {
     return {
       showModal: false,
-      relationList: [],
+      args: [],
       followingUserAmount: this.selectedUser.following_user.length,
       followedUserAmount: this.selectedUser.followed_user.length
     };
@@ -3317,12 +3441,15 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
 
               case 2:
                 response = _context3.sent;
-                this.relationList = response.data;
-                console.log(this.showModal);
-                this.showModal = true;
-                console.log(this.showModal);
+                _context3.next = 5;
+                return response.data.followList;
 
-              case 7:
+              case 5:
+                this.args.relationList = _context3.sent;
+                console.log('profiel', this.args.relationList);
+                this.showModal = true;
+
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -3348,10 +3475,14 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
 
               case 2:
                 response = _context4.sent;
-                this.relationList = response.data;
-                this.showModal = true;
+                _context4.next = 5;
+                return response.data;
 
               case 5:
+                this.relationList = _context4.sent;
+                this.showModal = true;
+
+              case 7:
               case "end":
                 return _context4.stop();
             }
@@ -3404,14 +3535,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     args: []
   },
   data: function data() {
     return {
-      relationList: this.args,
+      relationList: [],
       hasRelation: ""
     };
   },
@@ -3421,11 +3551,16 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    if (this.args === null) {
+    console.log('modal content', this.args.relationList);
+
+    if (this.args.relationList) {
       this.hasRelation = false;
     } else {
-      this.relationList = this.args;
+      this.hasRelation = true;
+      this.relationList = this.args.relationList;
     }
+
+    console.log('判定', this.hasRelation);
   }
 });
 
@@ -3450,6 +3585,20 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3617,9 +3766,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["isPost", "selectedMatch"],
+  props: ["isPost"],
   data: function data() {
     return {
       canvas: this.$refs
@@ -3643,6 +3791,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     _onClickDelete: function _onClickDelete() {
       this.$refs.field.$refs.canvas._onClickDelete();
+    },
+    upLoadImages: function upLoadImages(e) {
+      console.log('ボード', e);
+      this.$refs.field.upLoadImages(e);
+    },
+    hasImage: function hasImage() {
+      console.log("hasImage");
+      console.log(this.$refs.buttons.hasImage);
+      this.$refs.buttons.hasImage = true;
     }
   }
 });
@@ -3706,8 +3863,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["isPost", "refererPath"],
+  data: function data() {
+    return {
+      hasImage: ""
+    };
+  },
   methods: {
     _onclick: function _onclick() {
       this.$emit("captureBoard");
@@ -3721,11 +3911,15 @@ __webpack_require__.r(__webpack_exports__);
     _onClickRect: function _onClickRect() {
       this.$emit("_onClickRect");
     },
-    _onClickLine: function _onClickLine() {
+    _onClickLine: function _onClickLine(e) {
+      e.target.classList.toggle("btn-drawing");
       this.$emit("_onClickLine");
     },
     _onClickDelete: function _onClickDelete() {
       this.$emit("_onClickDelete");
+    },
+    upLoadImages: function upLoadImages(e) {
+      this.$emit("upLoadImages", e);
     }
   }
 });
@@ -81872,18 +82066,28 @@ var render = function () {
       !_vm.isIndex
         ? _c(
             "div",
-            { staticClass: "card-body row my-2 align-items-center py-2" },
+            { staticClass: "card-body row mb-2 align-items-center py-2" },
             [
               _vm.likeThisPost
-                ? _c("a", { attrs: { href: "/unlike/" + _vm.post.id } }, [
-                    _c("i", { staticClass: "fa-solid fa-heart fa-lg mr-1" }),
-                  ])
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "text-body",
+                      attrs: { href: "/unlike/" + _vm.post.id },
+                    },
+                    [_c("i", { staticClass: "fa-solid fa-heart fa-lg mr-1" })]
+                  )
                 : _vm._e(),
               _vm._v(" "),
               !_vm.likeThisPost
-                ? _c("a", { attrs: { href: "/like/" + _vm.post.id } }, [
-                    _c("i", { staticClass: "fa-regular fa-heart fa-lg mr-1" }),
-                  ])
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "text-body",
+                      attrs: { href: "/like/" + _vm.post.id },
+                    },
+                    [_c("i", { staticClass: "fa-regular fa-heart fa-lg mr-1" })]
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _c("span", { staticClass: "mr-3" }, [
@@ -81897,11 +82101,20 @@ var render = function () {
               ]),
               _vm._v(" "),
               _vm.isSelf
-                ? _c("a", { attrs: { href: "" } }, [
-                    _c("i", {
-                      staticClass: "fa-solid fa-pen-to-square fa-lg mr-3",
-                    }),
-                  ])
+                ? _c(
+                    "span",
+                    { staticClass: "text-body", attrs: { href: "" } },
+                    [
+                      _c("i", {
+                        staticClass: "fa-solid fa-pen-to-square fa-lg mr-2",
+                        on: {
+                          click: function ($event) {
+                            _vm.modifyMode = !_vm.modifyMode
+                          },
+                        },
+                      }),
+                    ]
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _vm.isSelf
@@ -81922,7 +82135,45 @@ var render = function () {
       _vm._v(" "),
       !_vm.isIndex
         ? _c("div", { staticClass: "card-body-text" }, [
-            _c("span", [_vm._v(_vm._s(_vm.post.body))]),
+            !_vm.modifyMode
+              ? _c("span", [_vm._v(_vm._s(_vm.post.body))])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.modifyMode
+              ? _c(
+                  "form",
+                  {
+                    staticClass: "d-flex col-12 px-0 align-self-start",
+                    attrs: { action: "/post/" + _vm.post.id, method: "POST" },
+                  },
+                  [
+                    _c("input", {
+                      attrs: { type: "hidden", name: "_token" },
+                      domProps: { value: _vm.csrf },
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "hidden", name: "_method", value: "PUT" },
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "textarea",
+                      {
+                        staticClass: "col-11 border-0 form-control",
+                        attrs: {
+                          name: "body",
+                          id: "floatingTextarea",
+                          cols: "10",
+                          rows: "2",
+                        },
+                      },
+                      [_vm._v(" " + _vm._s(_vm.post.body) + " ")]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(0),
+                  ]
+                )
+              : _vm._e(),
           ])
         : _vm._e(),
       _vm._v(" "),
@@ -81997,7 +82248,18 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn px-0 mx-auto", attrs: { type: "submit" } },
+      [_c("i", { staticClass: "fa-solid fa-paper-plane" })]
+    )
+  },
+]
 render._withStripped = true
 
 
@@ -82102,11 +82364,26 @@ var render = function () {
             "card-body py-0 row justify-content-between align-items-center",
         },
         [
-          _c("a", { attrs: { href: "/user/" + _vm.post.user.id } }, [
-            _c("span", { staticClass: "col-2 px-0" }, [
-              _vm._v(_vm._s(_vm.post.user.name)),
-            ]),
-          ]),
+          _c(
+            "a",
+            {
+              staticClass: "text-body bg-transparent",
+              attrs: { href: "/user/" + _vm.post.user.id },
+            },
+            [
+              _vm.post.user.nickname
+                ? _c("span", { staticClass: "bg-transparent col-2 px-0" }, [
+                    _vm._v(_vm._s(_vm.post.user.nickname)),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.post.user.nickname
+                ? _c("span", { staticClass: "bg-transparent col-2 px-0" }, [
+                    _vm._v(_vm._s(_vm.post.user.name)),
+                  ])
+                : _vm._e(),
+            ]
+          ),
           _vm._v(" "),
           _c("h3", { staticClass: "col-6" }, [_vm._v(_vm._s(_vm.post.title))]),
           _vm._v(" "),
@@ -82163,14 +82440,19 @@ var render = function () {
     "div",
     { staticClass: "main-content-warapper" },
     [
-      _c("div", { staticClass: "main-content-inner row justify-content-end" }, [
+      _c("div", { staticClass: "main-content-inner" }, [
         _c("div", { staticClass: "row" }, [
           _c(
             "div",
             { staticClass: "slide col-8 px-0" },
             [
               _c("post-image-carousel", {
-                attrs: { images: _vm.images, width: 600, isCreate: true },
+                attrs: {
+                  images: _vm.images,
+                  width: 600,
+                  isIndex: false,
+                  isCreate: true,
+                },
               }),
             ],
             1
@@ -82180,6 +82462,28 @@ var render = function () {
             _c("input", {
               attrs: { type: "hidden", name: "_token" },
               domProps: { value: _vm.csrf },
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.title,
+                  expression: "title",
+                },
+              ],
+              staticClass: "border-0 col-12 mb-2 py-2",
+              attrs: { type: "text" },
+              domProps: { value: _vm.title },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.title = $event.target.value
+                },
+              },
             }),
             _vm._v(" "),
             _c("textarea", {
@@ -82290,7 +82594,7 @@ var staticRenderFns = [
           _vm._v(" "),
           _c(
             "a",
-            { staticClass: "btn btn-primary col-4", attrs: { href: "/home" } },
+            { staticClass: "btn btn-primary col-4", attrs: { href: "/" } },
             [_vm._v("HOMEに戻る")]
           ),
         ]
@@ -82485,7 +82789,8 @@ var render = function () {
                     _c(
                       "a",
                       {
-                        staticClass: "card-link row justify-content-center",
+                        staticClass:
+                          "card-link row justify-content-center text-body",
                         attrs: {
                           href: "/create/board?fixture_id=" + fixture.id,
                         },
@@ -82619,30 +82924,22 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      directives: [
-        {
-          name: "show",
-          rawName: "v-show",
-          value: _vm.showModal,
-          expression: "showModal",
-        },
-      ],
-      staticClass: "modal-base row justify-content-center",
-    },
-    [
-      _c("div", { staticClass: "modal-overlay text-center" }),
-      _vm._v(" "),
-      _c(_vm.modalContent, {
-        tag: "component",
-        attrs: { args: _vm.args },
-        on: { contentBtnClick: _vm.contentBtnClick },
-      }),
-    ],
-    1
-  )
+  return _vm.showModal
+    ? _c(
+        "div",
+        { staticClass: "modal-base row justify-content-center" },
+        [
+          _c("div", { staticClass: "modal-overlay text-center" }),
+          _vm._v(" "),
+          _c(_vm.modalContent, {
+            tag: "component",
+            attrs: { args: _vm.args },
+            on: { contentBtnClick: _vm.contentBtnClick },
+          }),
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -82734,23 +83031,27 @@ var render = function () {
   return _c(
     "carousel",
     {
-      attrs: { perPage: 1, navigationEnabled: true, paginationEnabled: false },
+      attrs: {
+        perPage: 1,
+        navigationEnabled: _vm.isIndex,
+        paginationEnabled: !_vm.isIndex,
+      },
     },
     _vm._l(_vm.images, function (image, index) {
       return _c("slide", { key: index }, [
-        !_vm.isCreate
+        _vm.isIndex
           ? _c("a", { attrs: { href: "/post/" + _vm.postId } }, [
               _c("img", {
                 staticClass: "col-12 px-0",
-                attrs: { src: "/storage/" + image, alt: "" },
+                attrs: { src: "" + _vm.imagesPath + image, alt: "" },
               }),
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.isCreate
+        !_vm.isIndex
           ? _c("img", {
               staticClass: "col-12 px-0",
-              attrs: { src: image, alt: "" },
+              attrs: { src: "" + _vm.imagesPath + image, alt: "" },
             })
           : _vm._e(),
       ])
@@ -82795,9 +83096,17 @@ var render = function () {
           _vm._v(" "),
           _c("div", { staticClass: "profiel-inner-content col-8" }, [
             _c("div", { staticClass: "upside row py-2 align-items-center" }, [
-              _c("h2", { staticClass: "mr-5 mb-0" }, [
-                _vm._v(_vm._s(_vm.selectedUser.name)),
-              ]),
+              _vm.selectedUser.nickname
+                ? _c("h2", { staticClass: "mr-5 mb-0" }, [
+                    _vm._v(_vm._s(_vm.selectedUser.nickname)),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.selectedUser.nickname
+                ? _c("h2", { staticClass: "mr-5 mb-0" }, [
+                    _vm._v(_vm._s(_vm.selectedUser.name)),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
@@ -82926,18 +83235,20 @@ var render = function () {
         "portal",
         { attrs: { to: "modal" } },
         [
-          _c("Modal", {
-            attrs: {
-              showModal: _vm.showModal,
-              args: _vm.relationList,
-              modalContent: "RelationShipList",
-            },
-            on: {
-              contentBtnClick: function ($event) {
-                _vm.showModal = false
-              },
-            },
-          }),
+          _vm.showModal
+            ? _c("Modal", {
+                attrs: {
+                  showModal: _vm.showModal,
+                  args: _vm.args,
+                  modalContent: "RelationShipList",
+                },
+                on: {
+                  contentBtnClick: function ($event) {
+                    _vm.showModal = false
+                  },
+                },
+              })
+            : _vm._e(),
         ],
         1
       ),
@@ -83001,29 +83312,24 @@ var render = function () {
       _vm._l(_vm.relationList, function (follow, index) {
         return _c(
           "ul",
-          {
-            key: index,
-            staticClass: "list-group list-group-flush",
-            attrs: { "v-if": _vm.hasRelation },
-          },
+          { key: index, staticClass: "list-group list-group-flush" },
           [
-            _c("li", { staticClass: "list-group-item" }, [
-              _c("span", { staticClass: "card-text col-3 text-center" }, [
-                _vm._v(_vm._s(follow.name)),
-              ]),
-            ]),
+            _vm.hasRelation
+              ? _c("li", { staticClass: "list-group-item text-center" }, [
+                  _c("span", { staticClass: "card-text col-3 text-center" }, [
+                    _vm._v(_vm._s(follow.name)),
+                  ]),
+                ])
+              : _vm._e(),
           ]
         )
       }),
       _vm._v(" "),
-      _c(
-        "p",
-        {
-          staticClass: "text-center py-5",
-          attrs: { "v-if": !_vm.hasRelation },
-        },
-        [_vm._v("\n        フォローしているユーザーはいません。\n    ")]
-      ),
+      !_vm.hasRelation
+        ? _c("p", { staticClass: "text-center py-5" }, [
+            _vm._v("\n        フォローしているユーザーはいません。\n    "),
+          ])
+        : _vm._e(),
     ],
     2
   )
@@ -83078,130 +83384,134 @@ var render = function () {
             staticClass:
               "modal-content-lineup py-3 col-6 list-unstyled row flex-column",
           },
-          _vm._l(_vm.hometeamPlayers, function (hometeamPlayer, key, index) {
-            return _c(
-              "li",
-              {
-                key: key,
-                staticClass:
-                  "py-1 row justify-content-center align-items-center",
-              },
-              [
-                _c("span", { staticClass: "col-1 px-0 text-center" }, [
-                  _vm._v(_vm._s(hometeamPlayer.number)),
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "col-6" }, [
-                  _vm._v(_vm._s(hometeamPlayer.name)),
-                ]),
-                _vm._v(" "),
-                index < 11
-                  ? _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: hometeamPlayer.position,
-                            expression: "hometeamPlayer.position",
-                          },
-                        ],
-                        staticClass: "col-3 custom-select p-0 text-center",
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              hometeamPlayer,
-                              "position",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                        },
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("Choose..."),
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.positions, function (position, key) {
-                          return _c("option", { key: key }, [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(position) +
-                                "\n                    "
-                            ),
-                          ])
-                        }),
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                index >= 11
-                  ? _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: hometeamPlayer.position,
-                            expression: "hometeamPlayer.position",
-                          },
-                        ],
-                        staticClass: "col-3 custom-select p-0 text-center",
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              hometeamPlayer,
-                              "position",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._l(_vm.hometeamPlayers, function (hometeamPlayer, key, index) {
+              return _c(
+                "li",
+                {
+                  key: key,
+                  staticClass:
+                    "py-1 row justify-content-center align-items-center",
+                },
+                [
+                  _c("span", { staticClass: "col-1 px-0 text-center" }, [
+                    _vm._v(_vm._s(hometeamPlayer.number)),
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "col-6" }, [
+                    _vm._v(_vm._s(hometeamPlayer.name)),
+                  ]),
+                  _vm._v(" "),
+                  index < 11
+                    ? _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: hometeamPlayer.position,
+                              expression: "hometeamPlayer.position",
+                            },
+                          ],
+                          staticClass: "col-3 custom-select p-0 text-center",
+                          on: {
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                hometeamPlayer,
+                                "position",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
                           },
                         },
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("RESERVE"),
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.positions, function (position, key) {
-                          return _c("option", { key: key }, [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(position) +
-                                "\n                    "
-                            ),
-                          ])
-                        }),
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-              ]
-            )
-          }),
-          0
+                        [
+                          _c("option", { attrs: { selected: "" } }, [
+                            _vm._v("Choose..."),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.positions, function (position, key) {
+                            return _c("option", { key: key }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(position) +
+                                  "\n                    "
+                              ),
+                            ])
+                          }),
+                        ],
+                        2
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  index >= 11
+                    ? _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: hometeamPlayer.position,
+                              expression: "hometeamPlayer.position",
+                            },
+                          ],
+                          staticClass: "col-3 custom-select p-0 text-center",
+                          on: {
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                hometeamPlayer,
+                                "position",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                          },
+                        },
+                        [
+                          _c("option", { attrs: { selected: "" } }, [
+                            _vm._v("RESERVE"),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.positions, function (position, key) {
+                            return _c("option", { key: key }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(position) +
+                                  "\n                    "
+                              ),
+                            ])
+                          }),
+                        ],
+                        2
+                      )
+                    : _vm._e(),
+                ]
+              )
+            }),
+          ],
+          2
         ),
         _vm._v(" "),
         _c(
@@ -83210,130 +83520,134 @@ var render = function () {
             staticClass:
               "modal-content-lineup py-3 col-6 list-unstyled row flex-column",
           },
-          _vm._l(_vm.awayteamPlayers, function (awayteamPlayer, key, index) {
-            return _c(
-              "li",
-              {
-                key: key,
-                staticClass:
-                  "py-1 row justify-content-center align-items-center",
-              },
-              [
-                _c("span", { staticClass: "col-1 px-0 text-center" }, [
-                  _vm._v(_vm._s(awayteamPlayer.number)),
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "col-6" }, [
-                  _vm._v(_vm._s(awayteamPlayer.name)),
-                ]),
-                _vm._v(" "),
-                index < 11
-                  ? _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: awayteamPlayer.position,
-                            expression: "awayteamPlayer.position",
-                          },
-                        ],
-                        staticClass: "col-3 custom-select p-0 text-center",
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              awayteamPlayer,
-                              "position",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                        },
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("Choose..."),
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.positions, function (position, key) {
-                          return _c("option", { key: key }, [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(position) +
-                                "\n                    "
-                            ),
-                          ])
-                        }),
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                index >= 11
-                  ? _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: awayteamPlayer.position,
-                            expression: "awayteamPlayer.position",
-                          },
-                        ],
-                        staticClass: "col-3 custom-select p-0 text-center",
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              awayteamPlayer,
-                              "position",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._l(_vm.awayteamPlayers, function (awayteamPlayer, key, index) {
+              return _c(
+                "li",
+                {
+                  key: key,
+                  staticClass:
+                    "py-1 row justify-content-center align-items-center",
+                },
+                [
+                  _c("span", { staticClass: "col-1 px-0 text-center" }, [
+                    _vm._v(_vm._s(awayteamPlayer.number)),
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "col-6" }, [
+                    _vm._v(_vm._s(awayteamPlayer.name)),
+                  ]),
+                  _vm._v(" "),
+                  index < 11
+                    ? _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: awayteamPlayer.position,
+                              expression: "awayteamPlayer.position",
+                            },
+                          ],
+                          staticClass: "col-3 custom-select p-0 text-center",
+                          on: {
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                awayteamPlayer,
+                                "position",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
                           },
                         },
-                      },
-                      [
-                        _c("option", { attrs: { selected: "" } }, [
-                          _vm._v("RESERVE"),
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.positions, function (position, key) {
-                          return _c("option", { key: key }, [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(position) +
-                                "\n                    "
-                            ),
-                          ])
-                        }),
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-              ]
-            )
-          }),
-          0
+                        [
+                          _c("option", { attrs: { selected: "" } }, [
+                            _vm._v("Choose..."),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.positions, function (position, key) {
+                            return _c("option", { key: key }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(position) +
+                                  "\n                    "
+                              ),
+                            ])
+                          }),
+                        ],
+                        2
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  index >= 11
+                    ? _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: awayteamPlayer.position,
+                              expression: "awayteamPlayer.position",
+                            },
+                          ],
+                          staticClass: "col-3 custom-select p-0 text-center",
+                          on: {
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                awayteamPlayer,
+                                "position",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                          },
+                        },
+                        [
+                          _c("option", { attrs: { selected: "" } }, [
+                            _vm._v("RESERVE"),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.positions, function (position, key) {
+                            return _c("option", { key: key }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(position) +
+                                  "\n                    "
+                              ),
+                            ])
+                          }),
+                        ],
+                        2
+                      )
+                    : _vm._e(),
+                ]
+              )
+            }),
+          ],
+          2
         ),
       ]),
       _vm._v(" "),
@@ -83348,7 +83662,48 @@ var render = function () {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "li",
+      { staticClass: "py-1 row justify-content-center align-items-center" },
+      [
+        _c("span", { staticClass: "col-1 px-0 text-center" }, [
+          _vm._v(" No. "),
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "col-6" }, [_vm._v(" Name ")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "col-3 p-0 text-center" }, [
+          _vm._v(" Position "),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "li",
+      { staticClass: "py-1 row justify-content-center align-items-center" },
+      [
+        _c("span", { staticClass: "col-1 px-0 text-center" }, [
+          _vm._v(" No. "),
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "col-6" }, [_vm._v(" Name ")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "col-3 p-0 text-center" }, [
+          _vm._v(" Position "),
+        ]),
+      ]
+    )
+  },
+]
 render._withStripped = true
 
 
@@ -83374,9 +83729,14 @@ var render = function () {
     "div",
     { staticClass: "tactical-board row flex-column align-items-center" },
     [
-      _c("field", { ref: "field", attrs: { isPost: _vm.isPost } }),
+      _c("field", {
+        ref: "field",
+        attrs: { isPost: _vm.isPost },
+        on: { hasImage: _vm.hasImage },
+      }),
       _vm._v(" "),
       _c("tactical-board-buttons", {
+        ref: "buttons",
         attrs: { isPost: _vm.isPost },
         on: {
           captureBoard: _vm.captureBoard,
@@ -83385,6 +83745,7 @@ var render = function () {
           _onClickRect: _vm._onClickRect,
           _onClickLine: _vm._onClickLine,
           _onClickDelete: _vm._onClickDelete,
+          upLoadImages: _vm.upLoadImages,
         },
       }),
     ],
@@ -83422,7 +83783,7 @@ var render = function () {
             staticClass: "col-2 btn mr-2 btn-drawing",
             on: { click: _vm._onClickRect },
           },
-          [_vm._v("□")]
+          [_vm._v("\n                □\n            ")]
         ),
         _vm._v(" "),
         _c(
@@ -83488,14 +83849,38 @@ var render = function () {
               "button",
               { staticClass: "btn btn-primary next-button ml-2 col-3" },
               [
-                _c(
-                  "a",
-                  {
-                    staticClass: "text-white",
-                    attrs: { href: "/post/create" },
-                  },
-                  [_vm._v("次へ")]
-                ),
+                _vm.hasImage
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "text-white",
+                        attrs: { href: "/post/create" },
+                      },
+                      [_vm._v("次へ")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.hasImage
+                  ? _c(
+                      "label",
+                      { staticClass: "mb-0", attrs: { for: "file_upload" } },
+                      [_vm._v("デバイスから選ぶ")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.hasImage
+                  ? _c("input", {
+                      staticClass: "d-none",
+                      attrs: {
+                        type: "file",
+                        name: "file",
+                        id: "file_upload",
+                        accept: "image/*",
+                        multiple: "",
+                      },
+                      on: { change: _vm.upLoadImages },
+                    })
+                  : _vm._e(),
               ]
             )
           : _vm._e(),
@@ -83511,7 +83896,7 @@ var staticRenderFns = [
     return _c("button", { staticClass: "col-0.5 btn border mr-2" }, [
       _c(
         "a",
-        { staticClass: "text-black", attrs: { href: "/create/prepare" } },
+        { staticClass: "text-body", attrs: { href: "/create/prepare" } },
         [_vm._v("戻る")]
       ),
     ])

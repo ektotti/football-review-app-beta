@@ -13,6 +13,12 @@
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
+body {
+    background-image: url("../images/body_bg_image.jpeg");
+    background-position: center;
+    background-size: 100%;
+}
+
 .hometeam-players {
     background-color: transparent;
     position: absolute;
@@ -20,8 +26,8 @@
     .point {
         border: 2px solid white;
         color: white;
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         background-color: transparent;
         position: relative;
@@ -36,10 +42,11 @@
         transform: translate(-50%, -50%);
         pointer-events: none;
         user-select: none;
+        font-size: 1.5rem;
     }
     .name {
         user-select: none;
-        font-size: medium;
+        font-size: small;
         position: relative;
         top: -5px;
         color: white;
@@ -52,8 +59,8 @@
     z-index: 100;
     .point {
         border: 2px solid #fcfcfc;
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         background-color: #00000078;
         color: #ffffff;
@@ -69,13 +76,15 @@
         transform: translate(-50%, -50%);
         pointer-events: none;
         user-select: none;
+        font-size: 1.5rem;
     }
     .name {
         user-select: none;
-        font-size: medium;
+        font-size: small;
         position: relative;
         top: -5px;
         color: white;
+        font-weight: lighter;
     }
 }
 
@@ -94,6 +103,11 @@
         background-repeat: no-repeat;
         background-size: 100% 100%;
         background-position: center;
+    }
+    &-buttons {
+        & label {
+            font-size: x-small;
+        }
     }
 }
 
@@ -146,8 +160,12 @@
 
 .btn-drawing {
     border-color: $darksilver !important;
-    border:solid 3px;
+    border: solid 3px;
     background-color: $lightsilver !important;
+}
+
+.VueCarousel-dot-container {
+    margin-top: 0px !important;
 }
 
 .hometeam-players {

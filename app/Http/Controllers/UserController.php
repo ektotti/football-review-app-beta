@@ -11,37 +11,6 @@ use App\Relationship;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -94,6 +63,10 @@ class UserController extends Controller
 
         if($request->email){
             $user->email = $request->email;
+        }
+
+        if($request->nickname){
+            $user->nickname = $request->nickname;
         }
 
         if($request->file('image')) {

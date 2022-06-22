@@ -45,7 +45,7 @@ class RelationshipController extends Controller
 
     public function followList(Request $request) {
         $followList = Relationship::getFollowingUserList($request->id);
-        return $followList;
+        return ['followList' => $followList];
     }
 
     public function followerList(Request $request) {

@@ -13,7 +13,8 @@
             </div>
             <div class="profiel-inner-content col-8">
                 <div class="upside row py-2 align-items-center">
-                    <h2 class="mr-5 mb-0">{{ selectedUser.name }}</h2>
+                    <h2 class="mr-5 mb-0" v-if="selectedUser.nickname">{{ selectedUser.nickname }}</h2>
+                    <h2 class="mr-5 mb-0" v-if="!selectedUser.nickname">{{ selectedUser.name }}</h2>
                     <div v-show="!isSelf">
                         <button
                             class="btn btn-primary mr-5"
@@ -56,8 +57,9 @@
             <Modal
                 @contentBtnClick="showModal=false"
                 :showModal="showModal"
-                :args="relationList"
+                :args="args"
                 :modalContent="'RelationShipList'"
+                v-if="showModal"
             >
             </Modal>
         </portal>
@@ -80,7 +82,7 @@ export default {
     data: function () {
         return {
             showModal: false,
-            relationList: [],
+            args:[],
             followingUserAmount: this.selectedUser.following_user.length,   
             followedUserAmount: this.selectedUser.followed_user.length   
         };
@@ -108,16 +110,15 @@ export default {
             let response = await Axios.get(
                 `/relationship/follow/${this.selectedUser.id}`
             );
-            this.relationList = response.data;
-            console.log(this.showModal);
+            this.args.relationList = await response.data.followList;
+            console.log('profiel', this.args.relationList);
             this.showModal = true;
-            console.log(this.showModal);
         },
         showFollowers: async function () {
             let response = await Axios.get(
                 `/relationship/follower/${this.selectedUser.id}`
             );
-            this.relationList = response.data;
+            this.relationList = await response.data;
             this.showModal = true;
         },
     },

@@ -10,7 +10,6 @@ class GetPostsController extends Controller
 {
     public function __invoke()
     {
-        Log::debug('getpostscontrollerまでは来ています');
         $posts = [];
         $refererUrl = parse_url($_SERVER['HTTP_REFERER']);
         $refererPath = $refererUrl['path'];

@@ -5,12 +5,21 @@
         @method('PUT')
         @csrf
         <div class="form-group row align-items-center mb-5">
-            <label class="col-4" for="iconImage"><img class="rounded-sm" src="/storage/sample.jpg" width="75" alt=""></label>
-            <input type="file" class="" name="image" id="iconImage">
+            <img class="rounded-sm" src="/storage/sample.jpg" width="75" alt="">
+            <label for="iconImage" class="col-6 offset-2 mb-0" for="iconImage">アイコンを変更する</label>
+            <input type="file" class="d-none" name="image" id="iconImage">
+        </div>
+        <div class="form-group row align-items-center mb-5">
+            <label class="col-4" for="userName">お名前</label>
+            <input type="text" class="border-0 p-2 col-7" name="name" id="userName" placeholder="{{$user->name}}">
         </div>
         <div class="form-group row align-items-center mb-5">
             <label class="col-4" for="userName">ニックネーム</label>
-            <input type="text" class="border-0 p-2 col-7" name="name" id="userName" placeholder="{{$user->name}}">
+            @if($user->nickname)
+            <input type="text" class="border-0 p-2 col-7" name="nickname" id="userName" placeholder="{{$user->nickname}}">
+            @else
+            <input type="text" class="border-0 p-2 col-7" name="nickname" id="userName" placeholder="ニックネームを設定しましょう！">
+            @endif
         </div>
         <div class="form-group row align-items-center mb-5">
             <label class="col-4" for="email">メールアドレス</label>
